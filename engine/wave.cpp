@@ -5,7 +5,7 @@
 
 Wave::Wave(const std::string &filename) {
     if (SDL_LoadWAV(filename.c_str(), &spec, &buffer, &length) == nullptr) {
-        throw std::runtime_error("Can't load wave file");
+        throw std::runtime_error("Can't load wave file " + filename);
     }
 }
 
