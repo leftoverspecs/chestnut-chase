@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 project(ggj2023 CXX)
 
-set(ASSETS_DIRECTORY "${CMAKE_INSTALL_PREFIX}/share/labyrinth/assets" CACHE PATH "Directory for game assets")
+find_package(Python COMPONENTS Interpreter REQUIRED)
 
 include("${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
 conan_basic_setup(TARGETS)

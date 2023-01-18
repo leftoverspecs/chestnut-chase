@@ -8,6 +8,7 @@
 class Wave {
 public:
     explicit Wave(const std::string &filename);
+    explicit Wave(const unsigned char *data, std::size_t size);
     ~Wave();
 
     Wave(const Wave &) = delete;

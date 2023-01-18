@@ -1,16 +1,12 @@
-#include <assets.h>
+#include <test.txt.h>
 
 #include <iostream>
-#include <string>
-#include <fstream>
-#include <streambuf>
 #include <cassert>
+#include <string>
 
 int main() {
-    std::ifstream file(ASSETS_DIRECTORY "/test.txt");
-    std::string content((std::istreambuf_iterator<char>(file)),
-                         std::istreambuf_iterator<char>());
-
+    std::string content(reinterpret_cast<const char *>(test), sizeof(test));
     assert(!content.empty());
+    std::cout << content << '\n';
     return 0;
 }

@@ -1,3 +1,0 @@
-#pragma once
-
-#cmakedefine ASSETS_DIRECTORY "@ASSETS_DIRECTORY@"

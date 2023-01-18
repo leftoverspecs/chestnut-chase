@@ -9,6 +9,12 @@ Wave::Wave(const std::string &filename) {
     }
 }
 
+Wave::Wave(const unsigned char *data, std::size_t size) {
+    if (SDL_LoadWAV_RW(SDL_RWFromConstMem(data, size), 1, &spec, &buffer, &length) == nullptr) {
+        throw std::runtime_error("Can't load wave file from memoy");
+    }
+}
+
 Wave::~Wave() {
     SDL_FreeWAV(buffer);
 }
