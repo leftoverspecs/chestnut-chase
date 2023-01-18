@@ -3,3 +3,11 @@ target_link_libraries(assets_test PRIVATE assets)
 
 add_executable(wave_test wave_test.cpp)
 target_link_libraries(wave_test PRIVATE CONAN_PKG::sdl assets engine)
+
+add_executable(sprite_test sprite_test.cpp)
+target_link_libraries(sprite_test PRIVATE
+    CONAN_PKG::sdl
+    CONAN_PKG::glew
+    assets
+    engine
+)

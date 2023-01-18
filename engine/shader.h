@@ -14,6 +14,7 @@ public:
     };
 
     explicit Shader(GLenum type, const char *source);
+    explicit Shader(GLenum type, const char *source, std::size_t length);
     ~Shader();
 
     Shader(Shader &&shader);

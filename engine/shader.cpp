@@ -9,12 +9,17 @@ Shader::Exception::Exception(const char *message)
     : std::runtime_error(message) { }
 
 Shader::Shader(GLenum type, const char *source)
-    : id(glCreateShader(type)) {
+  : Shader(type, source, strlen(source))
+{ }
+
+Shader::Shader(GLenum type, const char *source, std::size_t length)
+  : id(glCreateShader(type))
+{
     if (id == 0) {
         throw Exception("Can't create shader object");
     }
     const GLchar *const sources[] = { source };
-    const GLint source_lengths[] = { static_cast<GLint>(strlen(source)) };
+    const GLint source_lengths[] = { static_cast<GLint>(length) };
     glShaderSource(id, 1, sources, source_lengths);
     glCompileShader(id);
 
