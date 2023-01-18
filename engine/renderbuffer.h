@@ -4,6 +4,8 @@
 
 #include <optional>
 
+namespace engine {
+
 class Renderbuffer {
 public:
     class Binding {
@@ -33,3 +35,5 @@ public:
 private:
     GLuint id;
 };
+
+}

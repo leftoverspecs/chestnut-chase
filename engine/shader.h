@@ -4,6 +4,8 @@
 
 #include <stdexcept>
 
+namespace engine {
+
 class Shader {
 public:
     class Exception : public std::runtime_error {
@@ -25,3 +27,5 @@ public:
 private:
     GLuint id;
 };
+
+}

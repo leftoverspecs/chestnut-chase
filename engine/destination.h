@@ -8,6 +8,8 @@
 
 #include <stdexcept>
 
+namespace engine {
+
 class Destination {
 public:
     class Exception : public std::runtime_error {
@@ -33,3 +35,5 @@ private:
     VertexArray vao;
     Buffer screen_vertices;
 };
+
+}

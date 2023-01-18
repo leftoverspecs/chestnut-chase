@@ -3,6 +3,8 @@
 #include <iostream>
 #include <stdexcept>
 
+namespace engine {
+
 Audio::Lock::Lock(SDL_AudioDeviceID id)
   : id(id)
 {
@@ -54,4 +56,6 @@ void Audio::internal_callback(void *userdata, Uint8 *data, int len) {
     if (self->callback) {
         self->callback(data, len);
     }
+}
+
 }

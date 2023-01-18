@@ -2,6 +2,8 @@
 
 #include "buffer.h"
 
+namespace engine {
+
 VertexArray::Binding::Binding(const VertexArray &vao)
   : bound(true)
 {
@@ -30,4 +32,6 @@ VertexArray::~VertexArray() {
 
 VertexArray::Binding VertexArray::bind() const {
     return Binding(*this);
+}
+
 }

@@ -3,6 +3,8 @@
 #include <cstring>
 #include <vector>
 
+namespace engine {
+
 Shader::Exception::Exception(const char *message)
     : std::runtime_error(message) { }
 
@@ -43,4 +45,6 @@ Shader &Shader::operator = (Shader &&shader) {
     id = shader.id;
     shader.id = 0;
     return *this;
+}
+
 }

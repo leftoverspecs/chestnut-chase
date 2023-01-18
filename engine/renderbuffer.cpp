@@ -1,5 +1,7 @@
 #include "renderbuffer.h"
 
+namespace engine {
+
 Renderbuffer::Binding::Binding(GLenum target, const Renderbuffer &renderbuffer)
   : target(target)
 {
@@ -24,4 +26,6 @@ Renderbuffer::~Renderbuffer() {
 
 Renderbuffer::Binding Renderbuffer::bind(GLenum target) const {
     return Binding(target, *this);
+}
+
 }

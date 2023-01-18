@@ -6,6 +6,8 @@
 
 #include <optional>
 
+namespace engine {
+
 class Buffer {
 public:
     class Binding {
@@ -32,3 +34,5 @@ public:
 private:
     GLuint id;
 };
+
+}

@@ -4,6 +4,8 @@
 
 #include <optional>
 
+namespace engine {
+
 class Texture {
 public:
     class Binding {
@@ -41,3 +43,5 @@ public:
 private:
     GLuint id;
 };
+
+}

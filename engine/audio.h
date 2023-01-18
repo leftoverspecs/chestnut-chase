@@ -4,6 +4,8 @@
 
 #include <functional>
 
+namespace engine {
+
 class Audio {
 public:
     class Lock {
@@ -33,3 +35,5 @@ private:
 
     static void internal_callback(void *userdata, Uint8 *data, int len);
 };
+
+}

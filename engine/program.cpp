@@ -4,6 +4,8 @@
 
 #include <vector>
 
+namespace engine {
+
 Program::Exception::Exception(const char *message)
     : std::runtime_error(message) { }
 
@@ -73,4 +75,6 @@ void Program::link() const {
 
 Program::Usage Program::use() const {
     return Usage(*this);
+}
+
 }

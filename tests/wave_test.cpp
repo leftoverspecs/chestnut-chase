@@ -7,6 +7,6 @@
 
 int main() {
     assert(SDL_Init(SDL_INIT_AUDIO) == 0);
-    Wave wav(blib, sizeof(blib));
+    engine::Wave wav(blib, sizeof(blib));
     return 0;
 }

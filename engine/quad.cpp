@@ -1,5 +1,7 @@
 #include "quad.h"
 
+namespace engine {
+
 namespace {
 
 GLfloat quad[] = {
@@ -32,4 +34,6 @@ Quad::Quad() {
 void Quad::draw() const {
     auto binding = vao.bind();
     glDrawArrays(GL_TRIANGLES, 0, sizeof(quad));
+}
+
 }

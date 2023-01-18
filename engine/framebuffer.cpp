@@ -3,6 +3,8 @@
 #include "renderbuffer.h"
 #include "texture.h"
 
+namespace engine {
+
 Framebuffer::Binding::Binding(GLenum target, const Framebuffer &framebuffer)
   : target(target)
 {
@@ -45,4 +47,6 @@ Framebuffer::~Framebuffer() {
 
 Framebuffer::Binding Framebuffer::bind(GLenum target) const {
     return Binding(target, *this);
+}
+
 }

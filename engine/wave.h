@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+namespace engine {
+
 class Wave {
 public:
     explicit Wave(const std::string &filename);
@@ -26,3 +28,5 @@ private:
 
     Wave(const SDL_AudioSpec &spec, Uint8 *buffer, Uint32 length);
 };
+
+}

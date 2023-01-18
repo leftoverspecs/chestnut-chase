@@ -1,5 +1,7 @@
 #include "texture.h"
 
+namespace engine {
+
 Texture::Binding::Binding(GLenum texture_unit, GLenum target, const Texture &texture)
   : texture_unit(texture_unit), target(target)
 {
@@ -43,4 +45,6 @@ Texture::~Texture() {
 
 Texture::Binding Texture::bind(GLenum texture_unit, GLenum target) const {
     return Binding(texture_unit, target, *this);
+}
+
 }

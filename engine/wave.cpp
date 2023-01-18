@@ -3,6 +3,8 @@
 #include <cassert>
 #include <stdexcept>
 
+namespace engine {
+
 Wave::Wave(const std::string &filename) {
     if (SDL_LoadWAV(filename.c_str(), &spec, &buffer, &length) == nullptr) {
         throw std::runtime_error("Can't load wave file " + filename);
@@ -39,4 +41,6 @@ std::vector<Uint8> Wave::convert_to_spec(const SDL_AudioSpec &destination) const
     cvt.buf = result.data();
     assert(SDL_ConvertAudio(&cvt) == 0);
     return result;
+}
+
 }

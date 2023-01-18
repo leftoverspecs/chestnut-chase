@@ -4,6 +4,8 @@
 
 #include <optional>
 
+namespace engine {
+
 class Renderbuffer;
 class Texture;
 
@@ -37,3 +39,5 @@ public:
 private:
     GLuint id;
 };
+
+}

@@ -4,6 +4,8 @@
 
 #include <optional>
 
+namespace engine {
+
 class VertexArray {
 public:
     class Binding {
@@ -31,3 +33,5 @@ public:
 private:
     GLuint id;
 };
+
+}

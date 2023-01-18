@@ -3,6 +3,8 @@
 #include "buffer.h"
 #include "vertexarray.h"
 
+namespace engine {
+
 class Quad {
 public:
     static const int ATTRIBUTE_POSITION;
@@ -15,3 +17,5 @@ private:
     VertexArray vao;
     Buffer vertices;
 };
+
+}

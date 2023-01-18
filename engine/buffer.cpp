@@ -1,5 +1,7 @@
 #include "buffer.h"
 
+namespace engine {
+
 Buffer::Binding::Binding(GLenum target, const Buffer &buffer)
   : target(target)
 {
@@ -32,4 +34,6 @@ Buffer::~Buffer() {
 
 Buffer::Binding Buffer::bind(GLenum target) const {
     return Binding(target, *this);
+}
+
 }

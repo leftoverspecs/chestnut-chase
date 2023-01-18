@@ -1,5 +1,7 @@
 #include "destination.h"
 
+namespace engine {
+
 namespace {
 
 GLfloat screen_vertex_data[] = {
@@ -61,4 +63,6 @@ void Destination::draw() const {
     auto binding = vao.bind();
     auto destination_texture_binding = destination.bind(GL_TEXTURE0, GL_TEXTURE_2D);
     glDrawArrays(GL_TRIANGLES, 0, sizeof(screen_vertex_data));
+}
+
 }

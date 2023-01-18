@@ -7,6 +7,8 @@
 
 #include <stdexcept>
 
+namespace engine {
+
 class Program {
 public:
     class Exception : public std::runtime_error {
@@ -46,3 +48,5 @@ public:
 private:
     GLuint id;
 };
+
+}
