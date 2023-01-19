@@ -7,12 +7,12 @@ out vec4 FragColor;
 
 void main() {
     //FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-    vec4 color = texture(sprite_texture, frag_texture_coord);
-    if (color.a < 0.1) {
-        discard;
-    } else {
-        FragColor = color;
-    }
+    //vec4 color = texture(sprite_texture, frag_texture_coord);
+    //if (color.a < 0.1) {
+    //    discard;
+    //} else {
+    //    FragColor = color;
+    //}
     //FragColor = vec4(texture(sprite_texture, vec2(0.75, 0.75)).rgb, 1.0);
-    //FragColor = texture(sprite_texture, frag_texture_coord);
+    FragColor = texture(sprite_texture, frag_texture_coord);
 }

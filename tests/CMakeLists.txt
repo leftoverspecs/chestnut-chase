@@ -27,3 +27,11 @@ target_link_libraries(font_test PRIVATE
     assets
     engine
 )
+
+add_executable(transparency_test transparency_test.cpp)
+target_link_libraries(transparency_test PRIVATE
+    CONAN_PKG::sdl
+    CONAN_PKG::glew
+    assets
+    engine
+)

@@ -2,11 +2,12 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 
-#include <font.h>
+#include <spritemap.h>
+#include <spriterenderer.h>
 
 #include <iostream>
 
-#include <font.png.h>
+#include <test_gradient.png.h>
 
 #ifdef _WIN32
 extern "C" {
@@ -55,7 +56,8 @@ int main(int argc, char *argv[]) {
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glViewport(0, 0, width, height);
 
-    engine::Font font(width, height, test_font, sizeof(test_font));
+    engine::SpriteMap sprites(test_gradient, sizeof(test_gradient), 1, 1);
+    engine::SpriteRenderer renderer(sprites, width, height);
 
     bool quit = false;
     while (!quit) {
@@ -74,9 +76,10 @@ int main(int argc, char *argv[]) {
             }
         }
 
-        glClearColor(0.0f, 0.5f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        font.write(10, (height - font.get_height()) / 2, "Hello World");
+        renderer.clear();
+        renderer.queue(10, 10, sprites.get_sprite_width(), sprites.get_sprite_height(), 0, 0);
+        renderer.draw();
         SDL_GL_SwapWindow(window);
         SDL_Delay(100);
     }
