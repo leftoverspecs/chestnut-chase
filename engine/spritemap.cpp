@@ -23,6 +23,9 @@ SpriteMap::SpriteMap(const unsigned char *png, std::size_t size,
     binding.set_parameter(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     binding.set_parameter(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     binding.image_2d(0, GL_RGBA, surface->w, surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+
+    sprite_width = static_cast<GLfloat>(surface->w) / columns;
+    sprite_height = static_cast<GLfloat>(surface->h) / rows;
 }
 
 Texture::Binding SpriteMap::bind(GLenum texture_unit, GLenum target) const {

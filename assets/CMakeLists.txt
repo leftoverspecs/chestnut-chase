@@ -10,6 +10,7 @@ macro(convert_to_header INPUT NAME)
 endmacro()
 
 convert_to_header(blib.wav blib)
+convert_to_header(font.png test_font)
 convert_to_header(test.txt test)
 convert_to_header(test_sprite.png test_sprite)
 convert_to_header(test_spritemap.png test_spritemap)
@@ -17,6 +18,7 @@ convert_to_header(sprite.vert sprite_vert)
 convert_to_header(sprite.frag sprite_frag)
 
 add_library(assets INTERFACE
+    "${CMAKE_CURRENT_BINARY_DIR}/font.png.h"
     "${CMAKE_CURRENT_BINARY_DIR}/blib.wav.h"
     "${CMAKE_CURRENT_BINARY_DIR}/sprite.frag.h"
     "${CMAKE_CURRENT_BINARY_DIR}/sprite.vert.h"

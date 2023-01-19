@@ -19,3 +19,11 @@ target_link_libraries(spritemap_test PRIVATE
     assets
     engine
 )
+
+add_executable(font_test font_test.cpp)
+target_link_libraries(font_test PRIVATE
+    CONAN_PKG::sdl
+    CONAN_PKG::glew
+    assets
+    engine
+)

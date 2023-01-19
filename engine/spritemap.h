@@ -19,8 +19,13 @@ public:
     };
 
     TextureRect get_sprite(unsigned int i, unsigned j) const;
+
+    GLfloat get_sprite_width() const { return sprite_width; }
+    GLfloat get_sprite_height() const { return sprite_height; }
 private:
     Texture texture;
+    GLfloat sprite_width;
+    GLfloat sprite_height;
     GLfloat columns;
     GLfloat rows;
 };

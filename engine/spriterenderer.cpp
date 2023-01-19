@@ -54,13 +54,13 @@ void SpriteRenderer::queue(GLfloat x, GLfloat y, GLfloat width, GLfloat height,
                            unsigned int i, unsigned int j) {
     SpriteMap::TextureRect rect = map.get_sprite(i, j);
     const GLfloat data[] = {
-        x,         y,          rect.u_min, rect.v_min,
-        x + width, y,          rect.u_max, rect.v_min,
-        x + width, y + height, rect.u_max, rect.v_max,
+        x,         y,          rect.u_min, rect.v_max,
+        x + width, y,          rect.u_max, rect.v_max,
+        x + width, y + height, rect.u_max, rect.v_min,
 
-        x,         y,          rect.u_min, rect.v_min,
-        x,         y + height, rect.u_min, rect.v_max,
-        x + width, y + height, rect.u_max, rect.v_max,
+        x,         y,          rect.u_min, rect.v_max,
+        x,         y + height, rect.u_min, rect.v_min,
+        x + width, y + height, rect.u_max, rect.v_min,
     };
     if (batch.size() + 6 * 4 >= CAPACITY) {
         throw std::runtime_error("Can't queue any further sprite");

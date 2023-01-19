@@ -2,13 +2,11 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 
-#include <spritemap.h>
-#include <spriterenderer.h>
-#include <texture.h>
+#include <font.h>
 
 #include <iostream>
 
-#include <test_spritemap.png.h>
+#include <font.png.h>
 
 #ifdef _WIN32
 extern "C" {
@@ -54,8 +52,7 @@ int main(int argc, char *argv[]) {
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glViewport(0, 0, width, height);
 
-    engine::SpriteMap sprites(test_spritemap, sizeof(test_spritemap), 2, 2);
-    engine::SpriteRenderer renderer(sprites, width, height);
+    engine::Font font(width, height, test_font, sizeof(test_font));
 
     bool quit = false;
     while (!quit) {
@@ -76,9 +73,7 @@ int main(int argc, char *argv[]) {
 
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        renderer.clear();
-        renderer.queue(10, 10, sprites.get_sprite_width(), sprites.get_sprite_height(), (SDL_GetTicks64() / 1000) % 2, (SDL_GetTicks64() / 2000) % 2);
-        renderer.draw();
+        font.write(10, (height - font.get_height()) / 2, "Hello World");
         SDL_GL_SwapWindow(window);
         SDL_Delay(100);
     }
