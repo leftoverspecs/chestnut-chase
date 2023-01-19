@@ -73,6 +73,8 @@ int main(int argc, char *argv[]) {
             }
         }
 
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         renderer.queue(10, 10, width - 20, height - 20);
         renderer.draw();
         SDL_GL_SwapWindow(window);
