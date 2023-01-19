@@ -32,7 +32,7 @@ public:
     };
 
     Texture();
-    Texture(const unsigned char *bmp, std::size_t size);
+    Texture(const unsigned char *png, std::size_t size);
     ~Texture();
 
     Binding bind(GLenum texture_unit, GLenum target) const;

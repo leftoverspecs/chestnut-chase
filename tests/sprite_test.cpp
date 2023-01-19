@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-#include <test_sprite.bmp.h>
+#include <test_sprite.png.h>
 
 #ifdef _WIN32
 extern "C" {
