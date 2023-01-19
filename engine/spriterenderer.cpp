@@ -1,5 +1,6 @@
 #include "spriterenderer.h"
 
+#include "spritemap.h"
 #include "texture.h"
 
 #include <stdexcept>
@@ -17,8 +18,8 @@ const int ATTRIBUTE_TEXTURE_COORD = 1;
 
 }
 
-SpriteRenderer::SpriteRenderer(const Texture &texture, GLfloat width, GLfloat height)
-  : texture(texture)
+SpriteRenderer::SpriteRenderer(const SpriteMap &map, GLfloat width, GLfloat height)
+  : map(map)
 {
     shader.attach(Shader(GL_VERTEX_SHADER, reinterpret_cast<const char *>(sprite_vert), sizeof(sprite_vert)));
     shader.attach(Shader(GL_FRAGMENT_SHADER, reinterpret_cast<const char *>(sprite_frag), sizeof(sprite_frag)));
@@ -45,16 +46,21 @@ SpriteRenderer::SpriteRenderer(const Texture &texture, GLfloat width, GLfloat he
     batch.reserve(CAPACITY);
 }
 
-void SpriteRenderer::queue(GLfloat x, GLfloat y, GLfloat width, GLfloat height) {
-    const GLfloat data[] = {
-        x,         y,          0, 0,
-        x + width, y,          1, 0,
-        x + width, y + height, 1, 1,
-        
+void SpriteRenderer::clear() {
+    batch.clear();
+}
 
-        x,         y,          0, 0,
-        x,         y + height, 0, 1,
-        x + width, y + height, 1, 1,
+void SpriteRenderer::queue(GLfloat x, GLfloat y, GLfloat width, GLfloat height,
+                           unsigned int i, unsigned int j) {
+    SpriteMap::TextureRect rect = map.get_sprite(i, j);
+    const GLfloat data[] = {
+        x,         y,          rect.u_min, rect.v_min,
+        x + width, y,          rect.u_max, rect.v_min,
+        x + width, y + height, rect.u_max, rect.v_max,
+
+        x,         y,          rect.u_min, rect.v_min,
+        x,         y + height, rect.u_min, rect.v_max,
+        x + width, y + height, rect.u_max, rect.v_max,
     };
     if (batch.size() + 6 * 4 >= CAPACITY) {
         throw std::runtime_error("Can't queue any further sprite");
@@ -64,7 +70,7 @@ void SpriteRenderer::queue(GLfloat x, GLfloat y, GLfloat width, GLfloat height) 
 
 void SpriteRenderer::draw() const {
     auto usage = shader.use();
-    auto texture_binding = texture.bind(GL_TEXTURE0, GL_TEXTURE_2D);
+    auto texture_binding = map.bind(GL_TEXTURE0, GL_TEXTURE_2D);
     auto binding = vao.bind();
     auto buffer_binding = vertex_buffer.bind(GL_ARRAY_BUFFER);
     buffer_binding.subdata(0, batch.size() * sizeof(GLfloat), batch.data());

@@ -15,6 +15,8 @@ add_library(engine STATIC
     renderbuffer.cpp
     shader.cpp
     shader.h
+    spritemap.cpp
+    spritemap.h
     spriterenderer.cpp
     spriterenderer.h
     texture.h

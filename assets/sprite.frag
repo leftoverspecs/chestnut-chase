@@ -13,5 +13,6 @@ void main() {
     } else {
         FragColor = color;
     }
-    //FragColor = vec4(texture(sprite_texture, vec2(1.0, 0.0)).rgb, 1.0);
+    //FragColor = vec4(texture(sprite_texture, vec2(0.75, 0.75)).rgb, 1.0);
+    //FragColor = texture(sprite_texture, frag_texture_coord);
 }

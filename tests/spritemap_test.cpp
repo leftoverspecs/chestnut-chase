@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-#include <test_sprite.png.h>
+#include <test_spritemap.png.h>
 
 #ifdef _WIN32
 extern "C" {
@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glViewport(0, 0, width, height);
 
-    engine::SpriteMap sprites(test_sprite, sizeof(test_sprite), 1, 1);
+    engine::SpriteMap sprites(test_spritemap, sizeof(test_spritemap), 2, 2);
     engine::SpriteRenderer renderer(sprites, width, height);
 
     bool quit = false;
@@ -75,12 +75,12 @@ int main(int argc, char *argv[]) {
         }
 
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+        glClear(GL_COLOR_BUFFER_BIT);
         renderer.clear();
-        renderer.queue(10, 10, width - 20, height - 20, 0, 0);
+        renderer.queue(10, 10, width - 20, height - 20, (SDL_GetTicks64() / 1000) % 2, (SDL_GetTicks64() / 2000) % 2);
         renderer.draw();
         SDL_GL_SwapWindow(window);
+        SDL_Delay(100);
     }
 
     SDL_GL_DeleteContext(context);

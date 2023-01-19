@@ -10,20 +10,22 @@
 
 namespace engine {
 
-class Sprite;
+class SpriteMap;
 class Texture;
 
 class SpriteRenderer {
 public:
-    SpriteRenderer(const Texture &texture, GLfloat width, GLfloat height);
+    SpriteRenderer(const SpriteMap &map, GLfloat width, GLfloat height);
 
-    void queue(GLfloat x, GLfloat y, GLfloat width, GLfloat height);
+    void clear();
+    void queue(GLfloat x, GLfloat y, GLfloat width, GLfloat height,
+               unsigned int i, unsigned int j);
     void draw() const;
 private:
     Program shader;
     VertexArray vao;
     Buffer vertex_buffer;
-    const Texture &texture;
+    const SpriteMap &map;
     std::vector<GLfloat> batch;
 };
 

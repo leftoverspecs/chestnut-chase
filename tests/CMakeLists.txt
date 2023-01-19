@@ -11,3 +11,11 @@ target_link_libraries(sprite_test PRIVATE
     assets
     engine
 )
+
+add_executable(spritemap_test spritemap_test.cpp)
+target_link_libraries(spritemap_test PRIVATE
+    CONAN_PKG::sdl
+    CONAN_PKG::glew
+    assets
+    engine
+)

@@ -1,9 +1,5 @@
 #include "texture.h"
 
-#include <SDL.h>
-#include <SDL_image.h>
-
-#include <stdexcept>
 
 namespace engine {
 
@@ -42,22 +38,6 @@ void Texture::Binding::clear(GLint level, GLenum format, GLenum type, const void
 
 Texture::Texture() {
     glGenTextures(1, &id);
-}
-
-Texture::Texture(const unsigned char *png, std::size_t size)
-  : Texture()
-{
-    SDL_Surface *const surface = IMG_LoadTyped_RW(SDL_RWFromConstMem(png, size), 1, "PNG");
-    if (surface == nullptr) {
-        throw std::runtime_error(SDL_GetError());
-    }
-
-    auto binding = bind(GL_TEXTURE0, GL_TEXTURE_2D);
-    binding.set_parameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
-    binding.set_parameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
-    binding.set_parameter(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    binding.set_parameter(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    binding.image_2d(0, GL_RGBA, surface->w, surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
 }
 
 Texture::~Texture() {
