@@ -76,7 +76,9 @@ int main(int argc, char *argv[]) {
 
         glClearColor(0.0f, 0.5f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+        font.clear();
         font.write(10, (height - font.get_height()) / 2, "Hello World");
+        font.draw();
         SDL_GL_SwapWindow(window);
         SDL_Delay(100);
     }

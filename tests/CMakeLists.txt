@@ -27,6 +27,9 @@ target_link_libraries(font_test PRIVATE
     assets
     engine
 )
+if (WIN32)
+target_link_options(font_test PRIVATE "/SUBSYSTEM:WINDOWS")
+endif()
 
 add_executable(transparency_test transparency_test.cpp)
 target_link_libraries(transparency_test PRIVATE

@@ -1,5 +1,5 @@
 [requires]
-sdl/2.24.0
+sdl/2.26.1
 sdl_image/2.0.5
 glew/2.2.0
 glm/cci.20220420
@@ -19,11 +19,8 @@ sdl_image:with_libwebp = False
 sdl_image:xcf = False
 sdl_image:xpm = False
 sdl_image:xv = False
-sdl:pulse = False
-sdl:sdl2main = True
 sdl:shared = False
 sdl:vulkan = False
-sdl:wayland = False
 
 [generators]
 cmake
