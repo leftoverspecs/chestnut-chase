@@ -9,6 +9,8 @@ add_library(engine STATIC
     font.cpp
     framebuffer.h
     framebuffer.cpp
+    particles.h
+    particles.cpp
     program.h
     program.cpp
     quad.h

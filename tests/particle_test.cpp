@@ -2,12 +2,11 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 
-#include <spritemap.h>
-#include <spriterenderer.h>
+#include <particles.h>
 
 #include <iostream>
 
-#include <test_gradient.png.h>
+#include <test_particle.png.h>
 
 #ifdef _WIN32
 extern "C" {
@@ -51,15 +50,17 @@ int main(int argc, char *argv[]) {
     }
 
     glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glViewport(0, 0, width, height);
 
-    engine::SpriteMap sprites(test_gradient, sizeof(test_gradient), 1, 1);
-    engine::SpriteRenderer renderer(sprites, width, height);
+    engine::Particles particles(1000, test_particle, sizeof(test_particle), width, height);
 
     bool quit = false;
+    long last = SDL_GetTicks64();
+    int x = width / 2;
+    int y = height / 2;
     while (!quit) {
         SDL_Event event;
         while(SDL_PollEvent(&event)) {
@@ -76,12 +77,25 @@ int main(int argc, char *argv[]) {
             }
         }
 
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        renderer.clear();
-        renderer.queue(10, 10, sprites.get_sprite_width(), sprites.get_sprite_height(), 1.0f, 1.0f, 1.0f, 1.0f, 0, 0);
-        renderer.draw();
+        const long now = SDL_GetTicks64();
+        {
+            int new_x;
+            int new_y;
+            SDL_GetMouseState(&new_x, &new_y);
+            for (int i = 0; i < 10; ++i) {
+                const GLfloat vx = 30.0f * (2.0f * static_cast<GLfloat>(rand()) / RAND_MAX - 1.0f) + 2.0f * (x - new_x); 
+                const GLfloat vy = 30.0f * (2.0f * static_cast<GLfloat>(rand()) / RAND_MAX - 1.0f) - 2.0f * (y - new_y); 
+                particles.add_particle(1.0f, new_x, height - new_y, vx, vy);
+            }
+            x = new_x;
+            y = new_y;
+        }
+        particles.update(static_cast<float>(now - last) / 1000.0f);
+        last = now;
+        particles.draw();
         SDL_GL_SwapWindow(window);
-        SDL_Delay(100);
     }
 
     SDL_GL_DeleteContext(context);

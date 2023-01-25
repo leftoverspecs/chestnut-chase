@@ -19,6 +19,7 @@ public:
 
     void clear();
     void queue(GLfloat x, GLfloat y, GLfloat width, GLfloat height,
+               GLfloat r, GLfloat g, GLfloat b, GLfloat a,
                unsigned int i, unsigned int j);
     void draw() const;
 private:

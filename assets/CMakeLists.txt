@@ -13,6 +13,7 @@ convert_to_header(blib.wav blib)
 convert_to_header(font.png test_font)
 convert_to_header(test.txt test)
 convert_to_header(test_gradient.png test_gradient)
+convert_to_header(test_particle.png test_particle)
 convert_to_header(test_sprite.png test_sprite)
 convert_to_header(test_spritemap.png test_spritemap)
 convert_to_header(sprite.vert sprite_vert)
@@ -25,6 +26,7 @@ add_library(assets INTERFACE
     "${CMAKE_CURRENT_BINARY_DIR}/sprite.vert.h"
     "${CMAKE_CURRENT_BINARY_DIR}/test.txt.h"
     "${CMAKE_CURRENT_BINARY_DIR}/test_gradient.png.h"
+    "${CMAKE_CURRENT_BINARY_DIR}/test_particle.png.h"
     "${CMAKE_CURRENT_BINARY_DIR}/test_sprite.png.h"
     "${CMAKE_CURRENT_BINARY_DIR}/test_spritemap.png.h"
 )

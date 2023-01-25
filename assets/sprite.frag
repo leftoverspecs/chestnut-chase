@@ -1,4 +1,5 @@
 #version 330 core
+in vec4 frag_color;
 in vec2 frag_texture_coord;
 
 uniform sampler2D sprite_texture;
@@ -14,5 +15,5 @@ void main() {
     //    FragColor = color;
     //}
     //FragColor = vec4(texture(sprite_texture, vec2(0.75, 0.75)).rgb, 1.0);
-    FragColor = texture(sprite_texture, frag_texture_coord);
+    FragColor = texture(sprite_texture, frag_texture_coord) * frag_color;
 }
