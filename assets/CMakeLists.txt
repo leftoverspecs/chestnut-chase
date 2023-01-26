@@ -10,6 +10,8 @@ macro(convert_to_header INPUT NAME)
 endmacro()
 
 convert_to_header(blib.wav blib)
+convert_to_header(destination.vert destination_vert)
+convert_to_header(destination.frag destination_frag)
 convert_to_header(font.png test_font)
 convert_to_header(test.txt test)
 convert_to_header(test_gradient.png test_gradient)
@@ -20,14 +22,27 @@ convert_to_header(sprite.vert sprite_vert)
 convert_to_header(sprite.frag sprite_frag)
 
 add_library(assets INTERFACE
+    "${CMAKE_CURRENT_SOURCE_DIR}/destination.frag"
+    "${CMAKE_CURRENT_BINARY_DIR}/destination.frag.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/destination.vert"
+    "${CMAKE_CURRENT_BINARY_DIR}/destination.vert.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/font.png"
     "${CMAKE_CURRENT_BINARY_DIR}/font.png.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/blib.wav"
     "${CMAKE_CURRENT_BINARY_DIR}/blib.wav.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/sprite.frag"
     "${CMAKE_CURRENT_BINARY_DIR}/sprite.frag.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/sprite.vert"
     "${CMAKE_CURRENT_BINARY_DIR}/sprite.vert.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test.txt"
     "${CMAKE_CURRENT_BINARY_DIR}/test.txt.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_gradient.png"
     "${CMAKE_CURRENT_BINARY_DIR}/test_gradient.png.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_particle.png"
     "${CMAKE_CURRENT_BINARY_DIR}/test_particle.png.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_sprite.png"
     "${CMAKE_CURRENT_BINARY_DIR}/test_sprite.png.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_spritemap.png"
     "${CMAKE_CURRENT_BINARY_DIR}/test_spritemap.png.h"
 )
 target_include_directories(assets INTERFACE "${CMAKE_CURRENT_BINARY_DIR}")

@@ -46,3 +46,11 @@ target_link_libraries(transparency_test PRIVATE
     assets
     engine
 )
+
+add_executable(destination_test destination_test.cpp)
+target_link_libraries(destination_test PRIVATE
+    CONAN_PKG::sdl
+    CONAN_PKG::glew
+    assets
+    engine
+)

@@ -2,6 +2,7 @@
 
 #include "buffer.h"
 #include "framebuffer.h"
+#include "program.h"
 #include "renderbuffer.h"
 #include "texture.h"
 #include "vertexarray.h"
@@ -17,16 +18,14 @@ public:
         Exception(const char *message) : std::runtime_error(message) { }
     };
 
-    static const int ATTRIBUTE_POSITION;
-    static const int ATTRIBUTE_TEXTURE_COORD;
-
     Destination(GLsizei width, GLsizei height);
 
     Framebuffer::Binding bind_as_target() const;
 
-    void draw() const;
+    void draw(GLfloat x, GLfloat y) const;
 
 private:
+    Program shader;
     GLsizei width;
     GLsizei height;
     Framebuffer framebuffer;

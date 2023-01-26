@@ -1,5 +1,8 @@
 #include "destination.h"
 
+#include <destination.vert.h>
+#include <destination.frag.h>
+
 namespace engine {
 
 namespace {
@@ -15,15 +18,21 @@ GLfloat screen_vertex_data[] = {
          1.0f, -1.0f, 1.0f, 0.0f
 };
 
-}
+const int ATTRIBUTE_POSITION = 0;
+const int ATTRIBUTE_TEXTURE_COORD = 1;
 
-const int Destination::ATTRIBUTE_POSITION = 0;
-const int Destination::ATTRIBUTE_TEXTURE_COORD = 1;
+}
 
 Destination::Destination(GLsizei width, GLsizei height)
   : width(width),
     height(height)
 {
+    shader.attach(Shader(GL_VERTEX_SHADER, reinterpret_cast<const char *>(destination_vert), sizeof(destination_vert)));
+    shader.attach(Shader(GL_FRAGMENT_SHADER, reinterpret_cast<const char *>(destination_frag), sizeof(destination_frag)));
+    shader.bind(ATTRIBUTE_POSITION, "position");
+    shader.bind(ATTRIBUTE_TEXTURE_COORD, "texture_coord");
+    shader.link();
+
     {
         auto binding = vao.bind();
         binding.enable_attribute(ATTRIBUTE_POSITION);
@@ -59,10 +68,13 @@ Framebuffer::Binding Destination::bind_as_target() const {
     return framebuffer.bind(GL_FRAMEBUFFER);
 }
 
-void Destination::draw() const {
+void Destination::draw(GLfloat x, GLfloat y) const {
+    auto usage = shader.use();
+    usage.set_uniform("x_offset", x);
+    usage.set_uniform("y_offset", y);
     auto binding = vao.bind();
     auto destination_texture_binding = destination.bind(GL_TEXTURE0, GL_TEXTURE_2D);
-    glDrawArrays(GL_TRIANGLES, 0, sizeof(screen_vertex_data));
+    glDrawArrays(GL_TRIANGLES, 0, sizeof(screen_vertex_data) / 4);
 }
 
 }
