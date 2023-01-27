@@ -90,7 +90,10 @@ int main(int argc, char *argv[]) {
             glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
             font.clear();
-            font.write(10, (height - font.get_height()) / 2, "Hello World");
+            glm::mat4 model(1.0f);
+            model = glm::translate(model, glm::vec3(10.0f, (height - font.get_height()) / 2.0f, 0.0f));
+            model = glm::scale(model, glm::vec3(font.get_width(), font.get_height(), 1.0f));
+            font.write(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "Hello World");
             font.draw();
         }
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -107,7 +110,7 @@ int main(int argc, char *argv[]) {
             amplitude = 0.0f;
         }
         if (red > 0.0001f) {
-            red /= 1.02f;
+            red /= 1.1f;
         } else {
             red = 0.0f;
         }

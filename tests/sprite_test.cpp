@@ -6,6 +6,9 @@
 #include <spriterenderer.h>
 #include <texture.h>
 
+//#include <glm/func_trigonometric.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include <iostream>
 
 #include <test_sprite.png.h>
@@ -78,7 +81,15 @@ int main(int argc, char *argv[]) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         renderer.clear();
-        renderer.queue(10, 10, width - 20, height - 20, 1.0f, 1.0f, 1.0f, 1.0f, 0, 0);
+        glm::mat4 model(1.0f);
+        int x, y;
+        SDL_GetMouseState(&x, &y);
+        model = glm::translate(model, glm::vec3(x, height - y, 0.0f));
+        model = glm::scale(model, glm::vec3(sprites.get_sprite_width(), sprites.get_sprite_height(), 1.0f));
+        model = glm::rotate(model, glm::radians(360.0f * SDL_GetTicks64() / 1000.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::translate(model, glm::vec3(-0.5f, -0.5f, 0.0f));
+        //model = glm::scale(model, glm::vec3(width - 20.0f, height - 20.0f, 1.0f));
+        renderer.queue(model, glm::vec4(1.0, 1.0f, 1.0f, 1.0f), 0, 0);
         renderer.draw();
         SDL_GL_SwapWindow(window);
     }

@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 #include <test_gradient.png.h>
 
 #ifdef _WIN32
@@ -78,7 +80,11 @@ int main(int argc, char *argv[]) {
 
         glClear(GL_COLOR_BUFFER_BIT);
         renderer.clear();
-        renderer.queue(10, 10, sprites.get_sprite_width(), sprites.get_sprite_height(), 1.0f, 1.0f, 1.0f, 1.0f, 0, 0);
+
+        glm::mat4 model(1.0f);
+        model = glm::translate(model, glm::vec3(10.0f, 10.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(sprites.get_sprite_width(), sprites.get_sprite_height(), 1.0f));
+        renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 0, 0);
         renderer.draw();
         SDL_GL_SwapWindow(window);
         SDL_Delay(100);

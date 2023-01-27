@@ -1,5 +1,7 @@
 #include "font.h"
 
+#include <glm/gtx/transform.hpp>
+
 namespace engine {
 
 Font::Font(GLfloat width, GLfloat height, const unsigned char *png, std::size_t size) 
@@ -11,12 +13,13 @@ void Font::clear() {
     renderer.clear();
 }
 
-void Font::write(int x, int y, const char *text) {
+void Font::write(glm::mat4 model, const glm::vec4 &color, const char *text) {
+    const glm::mat4 t = glm::translate(glm::vec3(1.0f, 0.0f, 0.0f));
     for (const char *c = text; *c != '\0'; ++c) {
         unsigned int i = *c & 0x0f;
         unsigned int j = (*c >> 4) & 0x0f;
-        renderer.queue(x, y, sprites.get_sprite_width(), sprites.get_sprite_height(), 1.0f, 1.0f, 1.0f, 1.0f, i, j);
-        x += sprites.get_sprite_width();
+        renderer.queue(model, color, i, j);
+        model = model * t;
     }
 }
 

@@ -18,8 +18,10 @@ SpriteMap::SpriteMap(const unsigned char *png, std::size_t size,
     }
 
     auto binding = bind(GL_TEXTURE0, GL_TEXTURE_2D);
-    binding.set_parameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
-    binding.set_parameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
+    //binding.set_parameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
+    //binding.set_parameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
+    binding.set_parameter(GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    binding.set_parameter(GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     binding.set_parameter(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     binding.set_parameter(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     binding.image_2d(0, GL_RGBA, surface->w, surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);

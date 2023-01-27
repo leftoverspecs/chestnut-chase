@@ -54,18 +54,23 @@ void SpriteRenderer::clear() {
     batch.clear();
 }
 
-void SpriteRenderer::queue(GLfloat x, GLfloat y, GLfloat width, GLfloat height,
-                           GLfloat r, GLfloat g, GLfloat b, GLfloat a,
+void SpriteRenderer::queue(const glm::mat4 &model, const glm::vec4 &color,
                            unsigned int i, unsigned int j) {
     SpriteMap::TextureRect rect = map.get_sprite(i, j);
-    const GLfloat data[] = {
-        x,         y,          r, g, b, a, rect.u_min, rect.v_max,
-        x + width, y,          r, g, b, a, rect.u_max, rect.v_max,
-        x + width, y + height, r, g, b, a, rect.u_max, rect.v_min,
 
-        x,         y,          r, g, b, a, rect.u_min, rect.v_max,
-        x,         y + height, r, g, b, a, rect.u_min, rect.v_min,
-        x + width, y + height, r, g, b, a, rect.u_max, rect.v_min,
+    const glm::vec4 a = model * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    const glm::vec4 b = model * glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+    const glm::vec4 c = model * glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+    const glm::vec4 d = model * glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
+
+    const GLfloat data[] = {
+        a.x,         a.y,          color.r, color.g, color.b, color.a, rect.u_min, rect.v_max,
+        b.x,         b.y,          color.r, color.g, color.b, color.a, rect.u_max, rect.v_max,
+        d.x,         d.y,          color.r, color.g, color.b, color.a, rect.u_max, rect.v_min,
+
+        a.x,         a.y,          color.r, color.g, color.b, color.a, rect.u_min, rect.v_max,
+        c.x,         c.y,          color.r, color.g, color.b, color.a, rect.u_min, rect.v_min,
+        d.x,         d.y,          color.r, color.g, color.b, color.a, rect.u_max, rect.v_min,
     };
     if (batch.size() + 6 * 8 >= CAPACITY) {
         throw std::runtime_error("Can't queue any further sprite");

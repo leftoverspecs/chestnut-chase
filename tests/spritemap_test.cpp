@@ -8,6 +8,8 @@
 
 #include <iostream>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 #include <test_spritemap.png.h>
 
 #ifdef _WIN32
@@ -80,7 +82,10 @@ int main(int argc, char *argv[]) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         renderer.clear();
-        renderer.queue(10, 10, sprites.get_sprite_width(), sprites.get_sprite_height(), 1.0f, 1.0f, 1.0f, 1.0f, (SDL_GetTicks64() / 1000) % 2, (SDL_GetTicks64() / 2000) % 2);
+        glm::mat4 model(1.0f);
+        model = glm::translate(model, glm::vec3(10.0f, 10.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(sprites.get_sprite_width(), sprites.get_sprite_height(), 1.0f));
+        renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), (SDL_GetTicks64() / 1000) % 2, (SDL_GetTicks64() / 2000) % 2);
         renderer.draw();
         SDL_GL_SwapWindow(window);
         SDL_Delay(100);

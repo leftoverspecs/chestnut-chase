@@ -2,6 +2,8 @@
 
 #include <stdexcept>
 
+#include <glm/gtx/transform.hpp>
+
 namespace engine {
 
 Particles::Particles(std::size_t num, const unsigned char *sprite, std::size_t size, GLfloat width, GLfloat height)
@@ -33,7 +35,10 @@ void Particles::update(GLfloat ticks) {
             p.y += ticks * p.vy;
             p.life -= ticks;
             if (p.life > 0.0f) {
-                renderer.queue(p.x, p.y, sprite.get_sprite_width(), sprite.get_sprite_height(), 1.0f, 1.0f, 1.0f, p.life / p.initial_life, 0, 0);
+                glm::mat4 model(1.0f);
+                model = glm::translate(model, glm::vec3(p.x, p.y, 0.0f));
+                model = glm::scale(model, glm::vec3(2.0f * sprite.get_sprite_width(), 2.0f * sprite.get_sprite_height(), 1.0));
+                renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, p.life / p.initial_life), 0, 0);
             }
         }
     }

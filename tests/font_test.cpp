@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 #include <font.png.h>
 
 #ifdef _WIN32
@@ -77,7 +79,13 @@ int main(int argc, char *argv[]) {
         glClearColor(0.0f, 0.5f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         font.clear();
-        font.write(10, (height - font.get_height()) / 2, "Hello World");
+        glm::mat4 model(1.0f);
+        model = glm::translate(model, glm::vec3(10.0f, (height - font.get_height()) / 2.0f, 0.0f));
+        int x, y;
+        SDL_GetMouseState(&x, &y);
+        model = glm::rotate(model, std::atan2(static_cast<float>(height - y - (height - font.get_height()) / 2.0f), static_cast<float>(x)), glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::scale(model, glm::vec3(font.get_width(), font.get_height(), 1.0f));
+        font.write(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "Hello World");
         font.draw();
         SDL_GL_SwapWindow(window);
         SDL_Delay(100);
