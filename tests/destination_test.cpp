@@ -65,6 +65,7 @@ int main(int argc, char *argv[]) {
     bool quit = false;
     long last = SDL_GetTicks64();
     float amplitude = 0.0f;
+    float red = 0.0f;
     while (!quit) {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
@@ -79,6 +80,7 @@ int main(int argc, char *argv[]) {
                     break;
                 case SDLK_SPACE:
                     amplitude += 0.1f;
+                    red += 0.1f;
                     break;
                 }
             }
@@ -104,7 +106,12 @@ int main(int argc, char *argv[]) {
         } else {
             amplitude = 0.0f;
         }
-        destination.draw(glm::translate(glm::vec3(x, y, 0)));
+        if (red > 0.0001f) {
+            red /= 1.02f;
+        } else {
+            red = 0.0f;
+        }
+        destination.draw(glm::translate(glm::vec3(x, y, 0.0f)), glm::vec3(10.0f * red, 0.0f, 0.0f));
         SDL_GL_SwapWindow(window);
 
         const long next = SDL_GetTicks64();

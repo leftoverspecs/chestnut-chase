@@ -9,13 +9,13 @@ namespace {
 
 GLfloat screen_vertex_data[] = {
     /*   X      Y     S     T    */
-        -1.0f, -1.0f, 0.0f, 0.0f,
-        -1.0f,  1.0f, 0.0f, 1.0f,
-         1.0f,  1.0f, 1.0f, 1.0f,
+        -2.0f, -2.0f, -0.5f, -0.5f,
+        -2.0f,  2.0f, -0.5f,  1.5f,
+         2.0f,  2.0f,  1.5f,  1.5f,
 
-        -1.0f, -1.0f, 0.0f, 0.0f,
-         1.0f,  1.0f, 1.0f, 1.0f,
-         1.0f, -1.0f, 1.0f, 0.0f
+        -2.0f, -2.0f, -0.5f, -0.5f,
+         2.0f,  2.0f,  1.5f,  1.5f,
+         2.0f, -2.0f,  1.5f, -0.5f
 };
 
 const int ATTRIBUTE_POSITION = 0;
@@ -48,6 +48,8 @@ Destination::Destination(GLsizei width, GLsizei height)
         binding.image_2d(0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
         binding.set_parameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         binding.set_parameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        binding.set_parameter(GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        binding.set_parameter(GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     }
     {
         auto binding = depth_stencil.bind(GL_RENDERBUFFER);
@@ -68,9 +70,10 @@ Framebuffer::Binding Destination::bind_as_target() const {
     return framebuffer.bind(GL_FRAMEBUFFER);
 }
 
-void Destination::draw(const glm::mat4x4 &projection) const {
+void Destination::draw(const glm::mat4x4 &projection, const glm::vec3 &color) const {
     auto usage = shader.use();
     usage.set_uniform("projection", projection);
+    usage.set_uniform("color", color);
     auto binding = vao.bind();
     auto destination_texture_binding = destination.bind(GL_TEXTURE0, GL_TEXTURE_2D);
     glDrawArrays(GL_TRIANGLES, 0, sizeof(screen_vertex_data) / 4);

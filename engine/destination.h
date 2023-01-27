@@ -8,6 +8,8 @@
 #include "vertexarray.h"
 
 #include <glm/mat4x4.hpp>
+#include <glm/vec3.hpp>
+
 #include <stdexcept>
 
 namespace engine {
@@ -23,7 +25,7 @@ public:
 
     Framebuffer::Binding bind_as_target() const;
 
-    void draw(const glm::mat4x4 &projection) const;
+    void draw(const glm::mat4x4 &projection, const glm::vec3 &color) const;
 
 private:
     Program shader;
