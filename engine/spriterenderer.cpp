@@ -12,7 +12,7 @@ namespace engine {
 
 namespace {
 
-const std::vector<GLfloat>::size_type CAPACITY = 10000 * 8;
+const std::vector<GLfloat>::size_type CAPACITY = 100000 * 8;
 const int ATTRIBUTE_POSITION = 0;
 const int ATTRIBUTE_COLOR = 1;
 const int ATTRIBUTE_TEXTURE_COORD = 2;

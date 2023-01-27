@@ -2,8 +2,10 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 
+#include <destination.h>
 #include <particles.h>
 
+#include <glm/gtx/transform.hpp>
 #include <iostream>
 
 #include <test_particle.png.h>
@@ -55,7 +57,8 @@ int main(int argc, char *argv[]) {
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glViewport(0, 0, width, height);
 
-    engine::Particles particles(1000, test_particle, sizeof(test_particle), width, height);
+    engine::Particles particles(10000, test_particle, sizeof(test_particle), width, height);
+    engine::Destination destination(width, height);
 
     bool quit = false;
     long last = SDL_GetTicks64();
@@ -84,17 +87,25 @@ int main(int argc, char *argv[]) {
             int new_x;
             int new_y;
             SDL_GetMouseState(&new_x, &new_y);
-            for (int i = 0; i < 10; ++i) {
+            for (int i = 0; i < 20; ++i) {
                 const GLfloat vx = 30.0f * (2.0f * static_cast<GLfloat>(rand()) / RAND_MAX - 1.0f) + 2.0f * (x - new_x); 
                 const GLfloat vy = 30.0f * (2.0f * static_cast<GLfloat>(rand()) / RAND_MAX - 1.0f) - 2.0f * (y - new_y); 
-                particles.add_particle(1.0f, new_x, height - new_y, vx, vy);
+                particles.add_particle(static_cast<GLfloat>(rand()) / RAND_MAX * 1.0f, new_x, height - new_y, vx, vy);
             }
             x = new_x;
             y = new_y;
         }
         particles.update(static_cast<float>(now - last) / 1000.0f);
         last = now;
-        particles.draw();
+        {
+            auto binding = destination.bind_as_target();
+            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+            particles.draw();
+        }
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        destination.draw(glm::translate(glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(0.0f, 0.0f, 0.0f));
         SDL_GL_SwapWindow(window);
     }
 
