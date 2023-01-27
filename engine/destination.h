@@ -7,6 +7,7 @@
 #include "texture.h"
 #include "vertexarray.h"
 
+#include <glm/mat4x4.hpp>
 #include <stdexcept>
 
 namespace engine {
@@ -22,7 +23,7 @@ public:
 
     Framebuffer::Binding bind_as_target() const;
 
-    void draw(GLfloat x, GLfloat y) const;
+    void draw(const glm::mat4x4 &projection) const;
 
 private:
     Program shader;

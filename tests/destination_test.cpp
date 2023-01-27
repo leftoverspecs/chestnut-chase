@@ -5,6 +5,8 @@
 #include <destination.h>
 #include <font.h>
 
+#include <glm/gtx/transform.hpp>
+
 #include <iostream>
 #include <string>
 
@@ -102,7 +104,7 @@ int main(int argc, char *argv[]) {
         } else {
             amplitude = 0.0f;
         }
-        destination.draw(x, y);
+        destination.draw(glm::translate(glm::vec3(x, y, 0)));
         SDL_GL_SwapWindow(window);
 
         const long next = SDL_GetTicks64();

@@ -68,10 +68,9 @@ Framebuffer::Binding Destination::bind_as_target() const {
     return framebuffer.bind(GL_FRAMEBUFFER);
 }
 
-void Destination::draw(GLfloat x, GLfloat y) const {
+void Destination::draw(const glm::mat4x4 &projection) const {
     auto usage = shader.use();
-    usage.set_uniform("x_offset", x);
-    usage.set_uniform("y_offset", y);
+    usage.set_uniform("projection", projection);
     auto binding = vao.bind();
     auto destination_texture_binding = destination.bind(GL_TEXTURE0, GL_TEXTURE_2D);
     glDrawArrays(GL_TRIANGLES, 0, sizeof(screen_vertex_data) / 4);

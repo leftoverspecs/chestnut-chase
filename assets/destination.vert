@@ -4,10 +4,9 @@ in vec2 texture_coord;
 
 out vec2 frag_texture_coord;
 
-uniform float x_offset;
-uniform float y_offset;
+uniform mat4x4 projection;
 
 void main() {
     frag_texture_coord = texture_coord;
-    gl_Position = vec4(position.x + x_offset, position.y + y_offset, 0, 1);
+    gl_Position = projection * vec4(position.xy, 0, 1);
 }
