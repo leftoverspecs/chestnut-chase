@@ -11,7 +11,9 @@
 #include <blib.wav.h>
 
 int main(int argc, char *argv[]) {
+#ifndef WIN32
     setenv("ALSA_CONFIG_DIR", "/usr/share/alsa", 1);
+#endif
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
         std::cerr << SDL_GetError() << std::endl;
         return EXIT_FAILURE;
@@ -55,6 +57,10 @@ int main(int argc, char *argv[]) {
                         playing = false;
                     }
                     break;
+                }
+                break;
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym) {
                 case SDLK_RETURN:
                     chunk.play(0);
                     break;

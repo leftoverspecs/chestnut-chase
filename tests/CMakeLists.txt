@@ -20,16 +20,13 @@ target_link_libraries(spritemap_test PRIVATE
     engine
 )
 
-add_executable(font_test font_test.cpp)
+add_executable(font_test WIN32 font_test.cpp)
 target_link_libraries(font_test PRIVATE
     CONAN_PKG::sdl
     CONAN_PKG::glew
     assets
     engine
 )
-if (WIN32)
-target_link_options(font_test PRIVATE "/SUBSYSTEM:WINDOWS")
-endif()
 
 add_executable(particle_test particle_test.cpp)
 target_link_libraries(particle_test PRIVATE
@@ -55,7 +52,7 @@ target_link_libraries(destination_test PRIVATE
     engine
 )
 
-add_executable(music_test music_test.cpp)
+add_executable(music_test WIN32 music_test.cpp)
 target_link_libraries(music_test PRIVATE
     CONAN_PKG::sdl
     CONAN_PKG::glew
