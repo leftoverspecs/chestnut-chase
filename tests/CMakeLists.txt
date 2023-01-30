@@ -54,3 +54,11 @@ target_link_libraries(destination_test PRIVATE
     assets
     engine
 )
+
+add_executable(music_test music_test.cpp)
+target_link_libraries(music_test PRIVATE
+    CONAN_PKG::sdl
+    CONAN_PKG::glew
+    assets
+    engine
+)

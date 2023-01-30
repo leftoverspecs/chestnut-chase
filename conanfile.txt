@@ -1,8 +1,12 @@
 [requires]
 sdl/2.26.1
 sdl_image/2.0.5
+sdl_mixer/2.0.4
 glew/2.2.0
 glm/cci.20220420
+libalsa/1.2.7.2
+ogg/1.3.5
+openssl/1.1.1n
 zlib/1.2.13
 
 [options]
@@ -21,6 +25,10 @@ sdl_image:xpm = False
 sdl_image:xv = False
 sdl:shared = False
 sdl:vulkan = False
+sdl_mixer:mikmod = False
+sdl_mixer:tinymidi = False
+sdl_mixer:mad = False
+libalsa:shared = True
 
 [generators]
 cmake

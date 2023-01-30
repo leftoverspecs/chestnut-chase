@@ -15,6 +15,7 @@ convert_to_header(destination.frag destination_frag)
 convert_to_header(font.png test_font)
 convert_to_header(test.txt test)
 convert_to_header(test_gradient.png test_gradient)
+convert_to_header(test_music.mp3 test_music)
 convert_to_header(test_particle.png test_particle)
 convert_to_header(test_sprite.png test_sprite)
 convert_to_header(test_spritemap.png test_spritemap)
@@ -38,6 +39,8 @@ add_library(assets INTERFACE
     "${CMAKE_CURRENT_BINARY_DIR}/test.txt.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/test_gradient.png"
     "${CMAKE_CURRENT_BINARY_DIR}/test_gradient.png.h"
+    "${CMAKE_CURRENT_BINARY_DIR}/test_music.mp3"
+    "${CMAKE_CURRENT_BINARY_DIR}/test_music.mp3.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/test_particle.png"
     "${CMAKE_CURRENT_BINARY_DIR}/test_particle.png.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/test_sprite.png"
