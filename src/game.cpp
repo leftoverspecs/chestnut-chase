@@ -7,6 +7,7 @@
 #include <controller.h>
 #include <destination.h>
 #include <font.h>
+#include <image.h>
 
 #include <iostream>
 #include <string>
@@ -14,6 +15,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <font.png.h>
+#include <logo.png.h>
 
 #include "player.h"
 
@@ -45,13 +47,16 @@ int main(int argc, char *argv[]) {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-    SDL_Window *const window = SDL_CreateWindow("Game",
+    SDL_Window *const window = SDL_CreateWindow("Chestnut Chase!",
                                                 SDL_WINDOWPOS_CENTERED,
                                                 SDL_WINDOWPOS_CENTERED,
                                                 WIDTH,
                                                 HEIGHT,
                                                 SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
     SDL_GLContext context = SDL_GL_CreateContext(window);
+
+    engine::Image icon(logo, sizeof(logo));
+    SDL_SetWindowIcon(window, icon.get_surface());
 
     glewExperimental = GL_TRUE;
     if (glewInit() != GLEW_OK) {

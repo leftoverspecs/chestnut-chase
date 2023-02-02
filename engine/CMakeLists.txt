@@ -13,6 +13,8 @@ add_library(engine STATIC
     font.cpp
     framebuffer.h
     framebuffer.cpp
+    image.h
+    image.cpp
     music.h
     music.cpp
     particles.h

@@ -1,7 +1,8 @@
 #include "spritemap.h"
 
+#include "image.h"
+
 #include <SDL.h>
-#include <SDL_image.h>
 
 #include <stdexcept>
 
@@ -12,10 +13,8 @@ SpriteMap::SpriteMap(const unsigned char *png, std::size_t size,
   : columns(columns),
     rows(rows)
 {
-    SDL_Surface *const surface = IMG_LoadTyped_RW(SDL_RWFromConstMem(png, size), 1, "PNG");
-    if (surface == nullptr) {
-        throw std::runtime_error(SDL_GetError());
-    }
+    Image image(png, size);
+    SDL_Surface *const surface = image.get_surface();
 
     auto binding = bind(GL_TEXTURE0, GL_TEXTURE_2D);
     //binding.set_parameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
