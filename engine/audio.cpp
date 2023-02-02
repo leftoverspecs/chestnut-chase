@@ -2,10 +2,25 @@
 
 #include <SDL_mixer.h>
 
-#include <iostream>
+#include <cstdlib>
 #include <stdexcept>
 
 namespace engine {
+
+#ifndef WIN32
+namespace {
+
+class AlsaEnv {
+public:
+    AlsaEnv() {
+#ifndef WIN32
+        setenv("ALSA_CONFIG_DIR", "/usr/share/alsa", 1);
+#endif
+    }
+} alsa_env;
+
+}
+#endif
 
 Audio::Audio(int frequency, Uint16 format, int channels, int chunksize) {
     if (Mix_OpenAudio(frequency, format, channels, chunksize) != 0) {

@@ -24,6 +24,14 @@ int Controller::is_button_a_pressed() const {
     return buttons[SDL_CONTROLLER_BUTTON_A];
 }
 
+int Controller::is_button_left_pressed() const {
+    return buttons[SDL_CONTROLLER_BUTTON_DPAD_LEFT];
+}
+
+int Controller::is_button_right_pressed() const {
+    return buttons[SDL_CONTROLLER_BUTTON_DPAD_RIGHT];
+}
+
 int Controller::get_right_trigger() const {
     return axis[SDL_CONTROLLER_AXIS_TRIGGERRIGHT];
 }

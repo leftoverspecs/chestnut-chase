@@ -13,7 +13,11 @@ public:
     ~Controller();
 
     int is_button_a_pressed() const;
+    int is_button_left_pressed() const;
+    int is_button_right_pressed() const;
+
     int get_right_trigger() const;
+
     void rumble(Uint16 low_freq, Uint16 high_freq, Uint32 duration) const;
 
     static int get_num_controllers();
