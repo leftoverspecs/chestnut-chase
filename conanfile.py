@@ -13,6 +13,7 @@ class NinjaBashConan(ConanFile):
         self.requires("ogg/1.3.5")
         if self.settings.os == "Linux":
             self.requires("libalsa/1.2.7.2")
+            self.requires("openssl/1.1.1n")
         #openssl/1.1.1n
         #zlib/1.2.13
 
@@ -36,10 +37,11 @@ class NinjaBashConan(ConanFile):
         self.options['sdl_mixer'].mad = False
         self.options['sdl_mixer'].modplug = False
         self.options['sdl_mixer'].mpg123 = True
-        self.options['sdl_mixer'].nativemidi = False
+        if self.settings.os == 'Windows':
+            self.options['sdl_mixer'].nativemidi = False
         self.options['sdl_mixer'].flac = False
         self.options['sdl_mixer'].fluidsynth = False
         self.options['sdl_mixer'].shared = False
         if self.settings.os == 'Linux':
-            self.options['sdl_mixer'].tinymid = False
-            self.options['libalso'].shared = True
+            self.options['sdl_mixer'].tinymidi = False
+            self.options['libalsa'].shared = True
