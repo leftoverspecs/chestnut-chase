@@ -5,6 +5,8 @@ add_library(engine STATIC
     buffer.cpp
     chunk.h
     chunk.cpp
+    controller.h
+    controller.cpp
     destination.h
     destination.cpp
     font.h

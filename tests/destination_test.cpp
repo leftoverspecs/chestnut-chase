@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 
+#include <controller.h>
 #include <destination.h>
 #include <font.h>
 
@@ -21,7 +22,7 @@ extern "C" {
 #endif
 
 int main(int argc, char *argv[]) {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) != 0) {
         std::cerr << SDL_GetError() << std::endl;
         return EXIT_FAILURE;
     }
@@ -61,6 +62,7 @@ int main(int argc, char *argv[]) {
 
     engine::Font font(width, height, test_font, sizeof(test_font));
     engine::Destination destination(width, height);
+    engine::Controller controller(0);
 
     bool quit = false;
     long last = SDL_GetTicks64();
@@ -83,7 +85,19 @@ int main(int argc, char *argv[]) {
                     red += 0.1f;
                     break;
                 }
+                break;
             }
+        }
+        if (controller.is_button_a_pressed() > 0) {
+            amplitude += 0.1f;
+            red += 0.1f;
+            controller.rumble(0xFFFF * 3 / 4, 0, 100);
+        }
+        if (std::abs(controller.get_right_trigger()) > 100) {
+            const float amount = std::max(controller.get_right_trigger() / 100000.0f, 0.1f);
+            amplitude += amount;
+            red += amount;
+            controller.rumble(0xFFFF * amount, 0, 100);
         }
         {
             auto binding = destination.bind_as_target();
