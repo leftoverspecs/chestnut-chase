@@ -12,6 +12,8 @@ class Player {
 public:
     Player(engine::Controller &controller, float x, float y, GLfloat width, GLfloat height);
 
+    glm::vec2 get_position() const { return position; }
+
     void update(float msec);
     void draw();
 private:

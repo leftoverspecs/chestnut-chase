@@ -17,6 +17,7 @@
 #include <font.png.h>
 #include <logo.png.h>
 
+#include "background.h"
 #include "player.h"
 
 #ifdef _WIN32
@@ -76,6 +77,7 @@ int main(int argc, char *argv[]) {
     engine::Controller controller2(1);
     game::Player player1(controller1, 0.0f, 0.0f, WIDTH, HEIGHT);
     game::Player player2(controller2, WIDTH - 50.0f, 0.0f, WIDTH, HEIGHT);
+    game::Background background(WIDTH, HEIGHT);
 
     bool quit = false;
     long last = SDL_GetTicks64();
@@ -102,9 +104,13 @@ int main(int argc, char *argv[]) {
             auto binding = destination.bind_as_target();
             glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
+            
             player1.update(diff);
-            player1.draw();
             player2.update(diff);
+            background.update((0.5f * (player1.get_position() + player2.get_position())).x);
+
+            background.draw();
+            player1.draw();
             player2.draw();
         }
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
