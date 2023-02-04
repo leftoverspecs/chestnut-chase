@@ -10,6 +10,7 @@ Chestnut::Chestnut(float x, float growth_rate, float max_length, float screen_wi
   : sprites(chestnut, sizeof(chestnut), 3, 1),
     renderer(sprites, screen_width, screen_height),
     screen_height(screen_height),
+    screen_width(screen_width),
     growth_rate(growth_rate),
     max_length(max_length),
     time(0.0f),
@@ -30,6 +31,13 @@ void Chestnut::update(float msec) {
     case State::FALLING_OPEN_PLAYER2:
         velocity.y += -0.001f * msec;
         position += msec * velocity;
+        if (position.y < 25.0f) {
+            position.y = 25.0f;
+            velocity.y = 0.9f * std::abs(velocity.y);
+        }
+        if (position.x < 25.0f || position.x > screen_width - 45.0f) {
+            velocity.x = -velocity.x;
+        }
         break;
     }
 }
@@ -70,7 +78,7 @@ void Chestnut::hit(bool female, glm::vec2 player, glm::vec2 player_velocity) {
         if (!female) {
             if (player.x > position.x - 32.0f && player.x < position.x + 32.0f && player.y > position.y - 64.0f) {
                 state = State::FALLING_OPEN_PLAYER2;
-                velocity = glm::vec2(0.2f * player_velocity.x, std::abs(velocity.y));
+                velocity = glm::vec2(0.2f * player_velocity.x, 1.1f * std::abs(velocity.y));
             }
         }
         break;
@@ -79,7 +87,7 @@ void Chestnut::hit(bool female, glm::vec2 player, glm::vec2 player_velocity) {
         if (female) {
             if (player.x > position.x - 32.0f && player.x < position.x + 32.0f && player.y > position.y - 64.0f) {
                 state = State::FALLING_OPEN_PLAYER1;
-                velocity = glm::vec2(0.2f * player_velocity.x, std::abs(velocity.y));
+                velocity = glm::vec2(0.2f * player_velocity.x, 1.1f * std::abs(velocity.y));
             }
         }
         break;

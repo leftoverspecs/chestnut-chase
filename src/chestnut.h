@@ -33,6 +33,7 @@ private:
     engine::SpriteMap sprites;
     engine::SpriteRenderer renderer;
     float screen_height;
+    float screen_width;
     float growth_rate;
     float max_length;
     float time;
