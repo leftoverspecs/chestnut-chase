@@ -10,8 +10,8 @@ class Box {
 public:
     Box(float x, float y, float w, float h, float screen_width, float screen_height);
 
-    void translate(float dx, float dy, float dw = 0, float dh = 0);
     void relocate(float x, float y);
+    void resize(float dw, float dh);
 
     bool collides_with_box(const Box &other) const;
 

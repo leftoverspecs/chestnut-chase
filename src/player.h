@@ -32,7 +32,8 @@ private:
     int sprite_index_j;
     bool face_left;
     glm::vec2 position;
-    engine::Box hitbox;
+    engine::Box body;
+    engine::Box sword;
     glm::vec2 velocity;
     float last_time_standing;
     float slash_time;

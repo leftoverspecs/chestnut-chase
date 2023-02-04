@@ -1,5 +1,6 @@
 #pragma once
 
+#include <box.h>
 #include <spritemap.h>
 #include <spriterenderer.h>
 
@@ -27,7 +28,7 @@ public:
     void update(float msec);
     void draw();
 
-    void hit(bool female, glm::vec2 player, glm::vec2 player_velocity);
+    void hit(bool female, const engine::Box &sword, glm::vec2 player_velocity);
 
 private:
     engine::SpriteMap sprites;
@@ -41,6 +42,8 @@ private:
     State state;
     glm::vec2 position;
     glm::vec2 velocity;
+    engine::Box fruit;
+    engine::Box stem;
 };
 
 }

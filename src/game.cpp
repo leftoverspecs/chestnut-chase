@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
     engine::Destination destination(WIDTH, HEIGHT);
     engine::Controller controller1(0);
     engine::Controller controller2(1);
-    game::Chestnut chestnut(400.0f, 0.05f, 150.0f, WIDTH, HEIGHT);
+    game::Chestnut chestnut(400.0f, 0.5f, 250.0f, WIDTH, HEIGHT);
     game::Player player1(controller1, chestnut, true, 0.0f, 0.0f, WIDTH, HEIGHT);
     game::Player player2(controller2, chestnut, false, WIDTH - 50.0f, 0.0f, WIDTH, HEIGHT);
     game::Background background(WIDTH, HEIGHT);

@@ -34,20 +34,24 @@ Box::Box(float x, float y, float w, float h, float screen_width, float screen_he
     }
 }
 
-void Box::translate(float dx, float dy, float dw, float dh) {
-    x += dx;
-    y += dy;
-    w += dw;
-    h += dh;
-}
-
 void Box::relocate(float x, float y) {
     this->x = x;
     this->y = y;
 }
 
+void Box::resize(float dw, float dh) {
+    this->w += dw;
+    this->h += dh;
+}
+
 bool Box::collides_with_box(const Box &other) const {
-    return false;
+    const bool horizontal_overlap
+        = (x < other.x && other.x < x + w)
+            || (other.x < x && x < other.x + other.w);
+    const bool vertical_overlap
+        = (y < other.y && other.y < y + h)
+            || (other.y < y && y < other.y + other.h);
+    return horizontal_overlap && vertical_overlap;
 }
 
 void Box::draw(glm::vec4 color) {
