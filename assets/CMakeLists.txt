@@ -23,6 +23,7 @@ convert_to_header(test_spritemap.png test_spritemap)
 convert_to_header(sprite.vert sprite_vert)
 convert_to_header(sprite.frag sprite_frag)
 
+convert_to_header(player.png player)
 convert_to_header(player2.png player2)
 convert_to_header(leaves.png leaves)
 convert_to_header(treelayer1.png treelayer1)
@@ -68,6 +69,8 @@ add_library(assets INTERFACE
     "${CMAKE_CURRENT_BINARY_DIR}/font.png.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/logo.png"
     "${CMAKE_CURRENT_BINARY_DIR}/logo.png.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/player.png"
+    "${CMAKE_CURRENT_BINARY_DIR}/player.png.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/player2.png"
     "${CMAKE_CURRENT_BINARY_DIR}/player2.png.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/sprite.frag"

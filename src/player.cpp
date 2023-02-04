@@ -1,5 +1,6 @@
 #include "player.h"
 
+#include <player.png.h>
 #include <player2.png.h>
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -29,9 +30,10 @@ const float RIGHT_BORDER = 35.0f;
 
 }
 
-Player::Player(engine::Controller &controller, float x, float y, GLfloat width, GLfloat height)
-  : time(0.0f),
-    sprites(player2, sizeof(player2), 13, 16),
+Player::Player(engine::Controller &controller, bool female, float x, float y, GLfloat width, GLfloat height)
+  : female(female),
+    time(0.0f),
+    sprites(female ? player : player2, female ? sizeof(player) : sizeof(player2), female ? 9 : 13, female ? 7 : 16),
     renderer(sprites, width, height),
     controller(&controller),
     sprite_index_i(0),
@@ -93,26 +95,46 @@ void Player::update(float msec) {
         sprite_index_i = std::min(static_cast<int>(std::floor(slash_time / 100.0f)) + 1, 6);
     } else if (position.y > GROUND_MARGIN) {
         // Player is in air
-        sprite_index_j = 5;
+        if (female) {
+            sprite_index_j = 3;
+        } else {
+            sprite_index_j = 5;
+        }
         if (velocity.y > 0.0f) {
             // Player ascends
-            sprite_index_i = 2;
+            if (female) {
+                sprite_index_i = 1;
+            } else {
+                sprite_index_i = 2;
+            }
         } else if (velocity.y < 0.0f) {
             // Player descends
-            sprite_index_i = 4;
+            if (female) {
+                sprite_index_i = 3;
+            } else {
+                sprite_index_i = 4;
+            }
         } else {
             // Player at peak
-            sprite_index_i = 3;
+            if (female) {
+                sprite_index_i = 2;
+            } else {
+                sprite_index_i = 3;
+            }
         }
     } else if (position.y < GROUND_MARGIN) {
         // Player is considered on the ground
         if (std::abs(velocity.x) > 0.0f) {
             // Player walks
-            sprite_index_i = static_cast<int>(std::floor(time / 100.0f)) % 7;
+            sprite_index_i = static_cast<int>(std::floor(time / 100.0f)) % 8;
             sprite_index_j = 1;
         } else {
             // Player is idle
-            sprite_index_i = static_cast<int>(std::floor(time / 250.0f)) % 13;
+            if (female) {
+                sprite_index_i = static_cast<int>(std::floor(time / 250.0f)) % 6;
+            } else {
+                sprite_index_i = static_cast<int>(std::floor(time / 250.0f)) % 13;
+            }
             sprite_index_j = 0;
         }
     }

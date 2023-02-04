@@ -75,8 +75,8 @@ int main(int argc, char *argv[]) {
     engine::Destination destination(WIDTH, HEIGHT);
     engine::Controller controller1(0);
     engine::Controller controller2(1);
-    game::Player player1(controller1, 0.0f, 0.0f, WIDTH, HEIGHT);
-    game::Player player2(controller2, WIDTH - 50.0f, 0.0f, WIDTH, HEIGHT);
+    game::Player player1(controller1, true, 0.0f, 0.0f, WIDTH, HEIGHT);
+    game::Player player2(controller2, false, WIDTH - 50.0f, 0.0f, WIDTH, HEIGHT);
     game::Background background(WIDTH, HEIGHT);
 
     bool quit = false;

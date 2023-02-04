@@ -10,13 +10,14 @@ namespace game {
 
 class Player {
 public:
-    Player(engine::Controller &controller, float x, float y, GLfloat width, GLfloat height);
+    Player(engine::Controller &controller, bool female, float x, float y, GLfloat width, GLfloat height);
 
     glm::vec2 get_position() const { return position; }
 
     void update(float msec);
     void draw();
 private:
+    bool female;
     float time;
     engine::SpriteMap sprites;
     engine::SpriteRenderer renderer;
