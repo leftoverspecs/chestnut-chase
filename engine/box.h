@@ -11,7 +11,7 @@ public:
     Box(float x, float y, float w, float h, float screen_width, float screen_height);
 
     void relocate(float x, float y);
-    void resize(float dw, float dh);
+    void resize(float w, float h);
 
     bool collides_with_box(const Box &other) const;
 

@@ -39,9 +39,9 @@ void Box::relocate(float x, float y) {
     this->y = y;
 }
 
-void Box::resize(float dw, float dh) {
-    this->w += dw;
-    this->h += dh;
+void Box::resize(float w, float h) {
+    this->w = w;
+    this->h = h;
 }
 
 bool Box::collides_with_box(const Box &other) const {

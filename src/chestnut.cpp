@@ -7,7 +7,7 @@
 namespace game {
 
 Chestnut::Chestnut(float x, float growth_rate, float max_length, float screen_width, float screen_height)
-  : sprites(chestnut, sizeof(chestnut), 6, 1),
+  : sprites(chestnut, sizeof(chestnut), 7, 1),
     renderer(sprites, screen_width, screen_height),
     screen_height(screen_height),
     screen_width(screen_width),
@@ -39,12 +39,17 @@ void Chestnut::update(float msec) {
         position += msec * velocity;
         if (position.y < 25.0f) {
             state = State::GROWING;
+            time = 0.0f;
             position.y = 25.0f;
             velocity = glm::vec2(0.0f, 0.0f);
         }
         if (position.x < 25.0f || position.x > screen_width - 45.0f) {
             velocity.x = -velocity.x;
         }
+        break;
+    case State::GROWING:
+        time += msec;
+        position.y = 25.0f + max_length * growth_rate * time / (growth_rate * time + max_length);
         break;
     }
     if (capsule_fly) {
@@ -57,9 +62,14 @@ void Chestnut::update(float msec) {
             capsule_velocity = glm::vec2(0.0f, 0.0f);
         }
     }
-    fruit.relocate(position.x - 32.0, position.y - 32.0);
-    stem.relocate(position.x - 10.0, position.y + 32.0);
-    stem.resize(0.0f, screen_height - position.y);
+    fruit.relocate(position.x - 32.0f, position.y - 32.0f);
+    if (state == State::HANGING) {
+        stem.relocate(position.x - 10.0f, position.y + 32.0f);
+        stem.resize(20.0f, screen_height - position.y);
+    } else if (state == State::GROWING) {
+        stem.relocate(position.x - 10.0f, 0.0f);
+        stem.resize(20.0f, position.y);
+    }
 }
 
 void Chestnut::draw() {
@@ -85,7 +95,26 @@ void Chestnut::draw() {
     } else if (state == State::FALLING_OPEN_PLAYER1 || state == State::FALLING_OPEN_PLAYER2) {
         renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 1, 0);
     } else if (state == State::GROWING) {
+        const int num = static_cast<int>((25.0f + position.y) / 32.0f) - 2;
+        for (int i = 0; i < num; ++i) {
+            glm::mat4 model(1.0f);
+            model = glm::translate(model, glm::vec3(position.x, position.y - 48.0f - i * 64.0, 0.0f));
+            model = glm::scale(model, glm::vec3(32.0f, 64.0f, 1.0f));
+            model = glm::translate(model, glm::vec3(-0.5f, 0.0f, 0.0f));
+            renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 2, 0);
+        }
+
+        glm::mat4 model(1.0f);
+        model = glm::translate(model, glm::vec3(position.x, 25.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(64.0f, 64.0f, 1.0f));
+        model = glm::translate(model, glm::vec3(-0.5f, -0.5f, 0.0f));
         renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 5, 0);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(position.x, position.y, 0.0f));
+        model = glm::scale(model, glm::vec3(64.0f, 64.0f, 1.0f));
+        model = glm::translate(model, glm::vec3(-0.5f, -0.5f, 0.0f));
+        renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 6, 0);
     }
 
     if (capsule_fly) {
