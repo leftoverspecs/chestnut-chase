@@ -10,34 +10,55 @@ Controller::Controller(int id)
     buttons{0}
 {
     if (controller == nullptr) {
-        throw std::runtime_error(SDL_GetError());
+        keyboard.emplace();
+    } else {
+        SDL_AddEventWatch(Controller::event_filter, this);
     }
-    SDL_AddEventWatch(Controller::event_filter, this);
 }
 
 Controller::~Controller() {
-    SDL_DelEventWatch(Controller::event_filter, this);
-    SDL_GameControllerClose(controller);
+    if (!keyboard) {
+        SDL_DelEventWatch(Controller::event_filter, this);
+        SDL_GameControllerClose(controller);
+    }
 }
 
 int Controller::is_button_a_pressed() const {
-    return buttons[SDL_CONTROLLER_BUTTON_A];
+    if (!keyboard) {
+        return buttons[SDL_CONTROLLER_BUTTON_A];
+    } else {
+        return keyboard->is_space_pressed();
+    }
 }
 
 int Controller::is_button_left_pressed() const {
-    return buttons[SDL_CONTROLLER_BUTTON_DPAD_LEFT];
+    if (!keyboard) {
+        return buttons[SDL_CONTROLLER_BUTTON_DPAD_LEFT];
+    } else {
+        return keyboard->is_left_pressed();
+    }
 }
 
 int Controller::is_button_right_pressed() const {
-    return buttons[SDL_CONTROLLER_BUTTON_DPAD_RIGHT];
+    if (!keyboard) {
+        return buttons[SDL_CONTROLLER_BUTTON_DPAD_RIGHT];
+    } else {
+        return keyboard->is_right_pressed();
+    }
 }
 
 int Controller::get_right_trigger() const {
-    return axis[SDL_CONTROLLER_AXIS_TRIGGERRIGHT];
+    if (!keyboard) {
+        return axis[SDL_CONTROLLER_AXIS_TRIGGERRIGHT];
+    } else {
+        return keyboard->is_lshift_pressed();
+    }
 }
 
 void Controller::rumble(Uint16 low_freq, Uint16 high_freq, Uint32 duration) const {
-    SDL_GameControllerRumble(controller, low_freq, high_freq, duration);
+    if (!keyboard) {
+        SDL_GameControllerRumble(controller, low_freq, high_freq, duration);
+    }
 }
 
 int Controller::get_num_controllers() {

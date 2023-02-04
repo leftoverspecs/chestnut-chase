@@ -15,6 +15,8 @@ add_library(engine STATIC
     framebuffer.cpp
     image.h
     image.cpp
+    keyboard.h
+    keyboard.cpp
     music.h
     music.cpp
     particles.h

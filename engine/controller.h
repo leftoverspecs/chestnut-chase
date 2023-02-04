@@ -1,9 +1,12 @@
 #pragma once
 
+#include "keyboard.h"
+
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_gamecontroller.h>
 
 #include <array>
+#include <optional>
 
 namespace engine {
 
@@ -11,6 +14,11 @@ class Controller {
 public:
     explicit Controller(int id);
     ~Controller();
+
+    Controller(const Controller &) = delete;
+    Controller(Controller &&) = delete;
+    Controller &operator = (const Controller &) = delete;
+    Controller &operator = (Controller &&) = delete;
 
     int is_button_a_pressed() const;
     int is_button_left_pressed() const;
@@ -23,6 +31,7 @@ public:
     static int get_num_controllers();
 private:
     SDL_GameController *controller;
+    std::optional<Keyboard> keyboard;
     std::array<int, 8> axis;
     std::array<int, 32> buttons;
 
