@@ -65,7 +65,11 @@ void Chestnut::draw() {
     model = glm::translate(model, glm::vec3(position, 0.0f));
     model = glm::scale(model, glm::vec3(64.0f, 64.0f, 1.0f));
     model = glm::translate(model, glm::vec3(-0.5f, -0.5f, 0.0f));
-    renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 0, 0);
+    if (state == State::HANGING || state == State::FALLING_CLOSED_PLAYER1 || state == State::FALLING_CLOSED_PLAYER2) {
+        renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 0, 0);
+    } else if (state == State::FALLING_OPEN_PLAYER1 || state == State::FALLING_OPEN_PLAYER2) {
+        renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 1, 0);
+    }
 
     renderer.draw();
     fruit.draw(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
