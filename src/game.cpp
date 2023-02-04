@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
             auto binding = destination.bind_as_target();
             glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
-            
+
             player1.update(diff);
             player2.update(diff);
             background.update((0.5f * (player1.get_position() + player2.get_position())).x);

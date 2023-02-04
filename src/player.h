@@ -17,14 +17,17 @@ public:
     void update(float msec);
     void draw();
 private:
+    float time;
     engine::SpriteMap sprites;
     engine::SpriteRenderer renderer;
     engine::Controller *controller;
+    int sprite_index_i;
+    int sprite_index_j;
     glm::vec2 position;
     glm::vec2 velocity;
     glm::vec2 jump_velocity;
     float last_time_standing;
-    float width;
+    float screen_width;
 };
 
 }
