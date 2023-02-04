@@ -31,6 +31,10 @@ void Program::Usage::set_uniform(const char *name, const glm::vec3 &v) const {
     glUniform3fv(glGetUniformLocation(program->id, name), 1, glm::value_ptr(v));
 }
 
+void Program::Usage::set_uniform(const char *name, const glm::vec4 &v) const {
+    glUniform4fv(glGetUniformLocation(program->id, name), 1, glm::value_ptr(v));
+}
+
 void Program::Usage::set_uniform(const char *name, GLint x) const {
     glUniform1i(glGetUniformLocation(program->id, name), x);
 }

@@ -2,6 +2,7 @@
 
 #include <glm/vec2.hpp>
 
+#include <box.h>
 #include <controller.h>
 #include <particles.h>
 #include <spritemap.h>
@@ -31,8 +32,8 @@ private:
     int sprite_index_j;
     bool face_left;
     glm::vec2 position;
+    engine::Box hitbox;
     glm::vec2 velocity;
-    glm::vec2 jump_velocity;
     float last_time_standing;
     float slash_time;
     float screen_width;

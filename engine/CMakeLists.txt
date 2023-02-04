@@ -1,6 +1,8 @@
 add_library(engine STATIC
     audio.h
     audio.cpp
+    box.h
+    box.cpp
     buffer.h
     buffer.cpp
     chunk.h

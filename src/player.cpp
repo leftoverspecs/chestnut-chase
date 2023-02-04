@@ -45,8 +45,8 @@ Player::Player(engine::Controller &controller, game::Chestnut &chestnut, bool fe
     sprite_index_j(0),
     face_left(!female),
     position(x, y),
+    hitbox(position.x - 64.0f, position.y, 128.0f, 128.0f, width, height),
     velocity(0.0f, 0.0f),
-    jump_velocity(0.0f, 0.0f),
     last_time_standing(0.0f),
     slash_time(0.0f),
     screen_width(width)
@@ -160,6 +160,7 @@ void Player::update(float msec) {
     }
     //std::cout << sprite_index_i << ", " << sprite_index_j << '\n';
     dust_particles.update(msec);
+    hitbox.relocate(position.x - 64.0f, position.y);
 }
 
 void Player::draw() {
@@ -172,6 +173,7 @@ void Player::draw() {
     model = glm::translate(model, glm::vec3(-0.5f, 0.0f, 0.0f));
     renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), sprite_index_i, sprite_index_j);
     renderer.draw();
+    hitbox.draw(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 }
 
 }

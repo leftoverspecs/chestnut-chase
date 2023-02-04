@@ -23,6 +23,8 @@ convert_to_header(test_spritemap.png test_spritemap)
 convert_to_header(sprite.vert sprite_vert)
 convert_to_header(sprite.frag sprite_frag)
 
+convert_to_header(box.vert box_vert)
+convert_to_header(box.frag box_frag)
 convert_to_header(chestnut.png chestnut)
 convert_to_header(dust.png dust)
 convert_to_header(player.png player)
@@ -63,6 +65,10 @@ add_library(test_assets INTERFACE
 target_include_directories(test_assets INTERFACE "${CMAKE_CURRENT_BINARY_DIR}")
 
 add_library(assets INTERFACE
+    "${CMAKE_CURRENT_SOURCE_DIR}/box.frag"
+    "${CMAKE_CURRENT_BINARY_DIR}/box.frag.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/box.vert"
+    "${CMAKE_CURRENT_BINARY_DIR}/box.vert.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/chestnut.png"
     "${CMAKE_CURRENT_BINARY_DIR}/chestnut.png.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/destination.frag"
