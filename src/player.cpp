@@ -1,5 +1,7 @@
 #include "player.h"
 
+#include "chestnut.h"
+
 #include <dust.png.h>
 #include <player.png.h>
 #include <player2.png.h>
@@ -31,13 +33,14 @@ const float RIGHT_BORDER = 45.0f;
 
 }
 
-Player::Player(engine::Controller &controller, bool female, float x, float y, GLfloat width, GLfloat height)
+Player::Player(engine::Controller &controller, game::Chestnut &chestnut, bool female, float x, float y, GLfloat width, GLfloat height)
   : female(female),
     time(0.0f),
     sprites(female ? player : player2, female ? sizeof(player) : sizeof(player2), female ? 9 : 13, female ? 7 : 16),
     renderer(sprites, width, height),
     dust_particles(1000, dust, sizeof(dust), width, height),
     controller(&controller),
+    chestnut(&chestnut),
     sprite_index_i(0),
     sprite_index_j(0),
     face_left(!female),
@@ -101,6 +104,12 @@ void Player::update(float msec) {
         // Player drew its sword
         sprite_index_j = 2;
         sprite_index_i = std::min(static_cast<int>(std::floor(slash_time / 100.0f)) + 1, 6);
+        glm::vec2 chestnut_position = chestnut->get_position();
+        std::cout << position.x << ", " << position.y << " --- " << chestnut_position.x << ", " << chestnut_position.y << '\n';
+        if (position.x > chestnut_position.x - 16.0f && position.x < chestnut_position.x + 16.0f
+            && position.y > chestnut_position.y - 32.0f) {
+            chestnut->drop(0.1 * velocity.x);
+        }
     } else if (position.y > GROUND_MARGIN) {
         // Player is in air
         if (female) {

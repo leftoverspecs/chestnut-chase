@@ -1,7 +1,11 @@
 add_executable(chestnutchase WIN32
     background.cpp
     background.h
+    chestnut.cpp
+    chestnut.h
     game.cpp
+    leaves.cpp
+    leaves.h
     player.cpp
     player.h
 )

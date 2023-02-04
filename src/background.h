@@ -14,11 +14,9 @@ public:
 private:
     float width;
     float height;
-    engine::SpriteMap leaves_map;
     engine::SpriteMap layer1;
     engine::SpriteMap layer2;
     engine::SpriteMap layer3;
-    engine::SpriteRenderer leaves_renderer;
     engine::SpriteRenderer renderer1;
     engine::SpriteRenderer renderer2;
     engine::SpriteRenderer renderer3;

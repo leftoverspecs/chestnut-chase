@@ -9,9 +9,11 @@
 
 namespace game {
 
+class Chestnut;
+
 class Player {
 public:
-    Player(engine::Controller &controller, bool female, float x, float y, GLfloat width, GLfloat height);
+    Player(engine::Controller &controller, game::Chestnut &chestnut, bool female, float x, float y, GLfloat width, GLfloat height);
 
     glm::vec2 get_position() const { return position; }
 
@@ -24,6 +26,7 @@ private:
     engine::SpriteRenderer renderer;
     engine::Particles dust_particles;
     engine::Controller *controller;
+    game::Chestnut *chestnut;
     int sprite_index_i;
     int sprite_index_j;
     bool face_left;
