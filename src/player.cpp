@@ -104,12 +104,7 @@ void Player::update(float msec) {
         // Player drew its sword
         sprite_index_j = 2;
         sprite_index_i = std::min(static_cast<int>(std::floor(slash_time / 100.0f)) + 1, 6);
-        glm::vec2 chestnut_position = chestnut->get_position();
-        std::cout << position.x << ", " << position.y << " --- " << chestnut_position.x << ", " << chestnut_position.y << '\n';
-        if (position.x > chestnut_position.x - 16.0f && position.x < chestnut_position.x + 16.0f
-            && position.y > chestnut_position.y - 32.0f) {
-            chestnut->drop(0.1 * velocity.x);
-        }
+        chestnut->hit(female, position, velocity);
     } else if (position.y > GROUND_MARGIN) {
         // Player is in air
         if (female) {

@@ -7,7 +7,17 @@ namespace game {
 
 class Chestnut {
 public:
-    Chestnut(float x, float growth, float max_length, float width, float height);
+    enum class State {
+        HANGING,
+        FALLING_CLOSED_PLAYER1,
+        FALLING_CLOSED_PLAYER2,
+        FALLING_OPEN_PLAYER1,
+        FALLING_OPEN_PLAYER2,
+        HARVESTED,
+        GROWING
+    };
+
+    Chestnut(float x, float growth_rate, float max_length, float screen_width, float screen_height);
 
     Chestnut(const Chestnut &) = delete;
     Chestnut(Chestnut &&) = delete;
@@ -17,22 +27,17 @@ public:
     void update(float msec);
     void draw();
 
-    void drop(float vx);
-
-    glm::vec2 get_position() const {
-        return glm::vec2(x, height - length);
-    }
+    void hit(bool female, glm::vec2 player, glm::vec2 player_velocity);
 
 private:
     engine::SpriteMap sprites;
     engine::SpriteRenderer renderer;
-    float time;
-    float height;
-    float x;
-    float growth;
+    float screen_height;
+    float growth_rate;
     float max_length;
-    float length;
-    float dropping;
+    float time;
+
+    State state;
     glm::vec2 position;
     glm::vec2 velocity;
 };
