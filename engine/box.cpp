@@ -71,4 +71,19 @@ void Box::draw(glm::vec4 color) {
     glDrawArrays(GL_LINES, 0, 16);
 }
 
+void Box::draw_filled(glm::vec4 color) {
+    const GLfloat data[] = {
+        x, y, x + w, y,     x + w, y + h,
+        x, y, x,     y + h, x + w, y + h
+    };
+    auto usage = shader.use();
+    usage.set_uniform("color", color);
+    auto binding = vao.bind();
+    auto buffer_binding = vertex_buffer.bind(GL_ARRAY_BUFFER);
+    buffer_binding.subdata(0, sizeof(data), data);
+    //void *d = glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY);
+    //glUnmapBuffer(GL_ARRAY_BUFFER);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
 }

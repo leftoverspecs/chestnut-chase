@@ -22,10 +22,16 @@ Chestnut::Chestnut(float x, float growth_rate, float max_length, float screen_wi
     capsule_fly(false),
     capsule1(0.0f, 0.0f),
     capsule2(0.0f, 0.0f),
-    capsule_velocity(0.0f, 0.0f)
+    capsule_velocity(0.0f, 0.0f),
+    health(50.0f),
+    hit_cooldown(0.0f)
 { }
 
 void Chestnut::update(float msec) {
+    if (health <= 0.0f) {
+        return;
+    }
+
     switch (state) {
     case State::HANGING:
         time += msec;
@@ -50,6 +56,11 @@ void Chestnut::update(float msec) {
     case State::GROWING:
         time += msec;
         position.y = 25.0f + max_length * growth_rate * time / (growth_rate * time + max_length);
+        if (hit_cooldown > 0.0f) {
+            hit_cooldown -= msec;
+        } else {
+            hit_cooldown = 0.0f;
+        }
         break;
     }
     if (capsule_fly) {
@@ -73,6 +84,9 @@ void Chestnut::update(float msec) {
 }
 
 void Chestnut::draw() {
+    if (health < 0.0f) {
+        return;
+    }
     renderer.clear();
 
     if (state == State::HANGING) {
@@ -95,26 +109,31 @@ void Chestnut::draw() {
     } else if (state == State::FALLING_OPEN_PLAYER1 || state == State::FALLING_OPEN_PLAYER2) {
         renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 1, 0);
     } else if (state == State::GROWING) {
+        float alpha = 1.0f;
+        if (hit_cooldown > 0.0f) {
+            alpha = static_cast<int>(std::floor(hit_cooldown / 5.0f)) % 2;
+        }
+
         const int num = static_cast<int>((25.0f + position.y) / 32.0f) - 2;
         for (int i = 0; i < num; ++i) {
             glm::mat4 model(1.0f);
             model = glm::translate(model, glm::vec3(position.x, position.y - 48.0f - i * 64.0, 0.0f));
             model = glm::scale(model, glm::vec3(32.0f, 64.0f, 1.0f));
             model = glm::translate(model, glm::vec3(-0.5f, 0.0f, 0.0f));
-            renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 2, 0);
+            renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, alpha), 2, 0);
         }
 
         glm::mat4 model(1.0f);
         model = glm::translate(model, glm::vec3(position.x, 25.0f, 0.0f));
         model = glm::scale(model, glm::vec3(64.0f, 64.0f, 1.0f));
         model = glm::translate(model, glm::vec3(-0.5f, -0.5f, 0.0f));
-        renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 5, 0);
+        renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, alpha), 5, 0);
 
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(position.x, position.y, 0.0f));
         model = glm::scale(model, glm::vec3(64.0f, 64.0f, 1.0f));
         model = glm::translate(model, glm::vec3(-0.5f, -0.5f, 0.0f));
-        renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 6, 0);
+        renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, alpha), 6, 0);
     }
 
     if (capsule_fly) {
@@ -174,7 +193,16 @@ void Chestnut::hit(bool female, const engine::Box &sword, glm::vec2 player_veloc
             }
         }
         break;
+    case State::GROWING:
+        if (sword.collides_with_box(stem)) {
+            health -= 1.0f;
+            hit_cooldown = 1000.0f;
+        }
     }
+}
+
+bool Chestnut::hits(const engine::Box &body) const {
+    return health > 0.0f && state == State::GROWING && body.collides_with_box(stem);
 }
 
 }

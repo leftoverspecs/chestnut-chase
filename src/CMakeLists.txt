@@ -4,6 +4,8 @@ add_executable(chestnutchase WIN32
     chestnut.cpp
     chestnut.h
     game.cpp
+    health.cpp
+    health.h
     leaves.cpp
     leaves.h
     player.cpp

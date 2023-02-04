@@ -11,10 +11,13 @@
 namespace game {
 
 class Chestnut;
+class Health;
 
 class Player {
 public:
-    Player(engine::Controller &controller, game::Chestnut &chestnut, bool female, float x, float y, GLfloat width, GLfloat height);
+    Player(engine::Controller &controller,
+           game::Health &health,
+           game::Chestnut &chestnut, bool female, float x, float y, GLfloat width, GLfloat height);
 
     glm::vec2 get_position() const { return position; }
 
@@ -27,6 +30,7 @@ private:
     engine::SpriteRenderer renderer;
     engine::Particles dust_particles;
     engine::Controller *controller;
+    game::Health *health;
     game::Chestnut *chestnut;
     int sprite_index_i;
     int sprite_index_j;
@@ -38,6 +42,7 @@ private:
     float last_time_standing;
     float slash_time;
     float screen_width;
+    float hit_cooldown;
 };
 
 }

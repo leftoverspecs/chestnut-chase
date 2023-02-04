@@ -16,6 +16,7 @@ public:
     bool collides_with_box(const Box &other) const;
 
     void draw(glm::vec4 color);
+    void draw_filled(glm::vec4 color);
 
 private:
     Program shader;

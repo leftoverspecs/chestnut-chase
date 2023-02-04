@@ -1,6 +1,7 @@
 #include "player.h"
 
 #include "chestnut.h"
+#include "health.h"
 
 #include <dust.png.h>
 #include <player.png.h>
@@ -33,13 +34,14 @@ const float RIGHT_BORDER = 45.0f;
 
 }
 
-Player::Player(engine::Controller &controller, game::Chestnut &chestnut, bool female, float x, float y, GLfloat screen_width, GLfloat screen_height)
+Player::Player(engine::Controller &controller, game::Health &health, game::Chestnut &chestnut, bool female, float x, float y, GLfloat screen_width, GLfloat screen_height)
   : female(female),
     time(0.0f),
     sprites(female ? player : player2, female ? sizeof(player) : sizeof(player2), female ? 9 : 13, female ? 7 : 16),
     renderer(sprites, screen_width, screen_height),
     dust_particles(1000, dust, sizeof(dust), screen_width, screen_height),
     controller(&controller),
+    health(&health),
     chestnut(&chestnut),
     sprite_index_i(0),
     sprite_index_j(0),
@@ -50,7 +52,8 @@ Player::Player(engine::Controller &controller, game::Chestnut &chestnut, bool fe
     velocity(0.0f, 0.0f),
     last_time_standing(0.0f),
     slash_time(0.0f),
-    screen_width(screen_width)
+    screen_width(screen_width),
+    hit_cooldown(0.0f)
 { }
 
 void Player::update(float msec) {
@@ -165,6 +168,17 @@ void Player::update(float msec) {
     dust_particles.update(msec);
     body.relocate(position.x - 40.0f, position.y + 2.0f);
     sword.relocate(position.x + (face_left ? -65.0f : 25.0f), position.y + 20.0f);
+
+    if (hit_cooldown > 0.0f) {
+        hit_cooldown -= msec;
+    } else {
+        hit_cooldown = 0.0f;
+    }
+    if (hit_cooldown == 0.0f && chestnut->hits(body)) {
+        health->adjust(-10.0f);
+        hit_cooldown = 1000.0f;
+        velocity.x = face_left ? 1.0f : -1.0f;
+    }
 }
 
 void Player::draw() {
@@ -175,7 +189,11 @@ void Player::draw() {
     model = glm::scale(model, glm::vec3(128.0f, 128.0f, 1.0f));
     model = glm::scale(model, glm::vec3(face_left ? -1.0f : 1.0f, 1.0f, 1.0f));
     model = glm::translate(model, glm::vec3(-14.0f / 32.0f, 0.0f, 0.0f));
-    renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), sprite_index_i, sprite_index_j);
+    float alpha = 1.0f;
+    if (hit_cooldown > 0.0f) {
+        alpha = static_cast<int>(std::floor(hit_cooldown / 5.0f)) % 2;
+    }
+    renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, alpha), sprite_index_i, sprite_index_j);
     renderer.draw();
     body.draw(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
     sword.draw(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));

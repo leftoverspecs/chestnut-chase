@@ -29,6 +29,7 @@ public:
     void draw();
 
     void hit(bool female, const engine::Box &sword, glm::vec2 player_velocity);
+    bool hits(const engine::Box &body) const;
 
 private:
     engine::SpriteMap sprites;
@@ -49,6 +50,9 @@ private:
     glm::vec2 capsule1;
     glm::vec2 capsule2;
     glm::vec2 capsule_velocity;
+
+    float health;
+    float hit_cooldown;
 };
 
 }

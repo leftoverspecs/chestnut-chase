@@ -21,6 +21,7 @@
 
 #include "background.h"
 #include "chestnut.h"
+#include "health.h"
 #include "leaves.h"
 #include "player.h"
 
@@ -81,8 +82,10 @@ int main(int argc, char *argv[]) {
     engine::Controller controller1(0);
     engine::Controller controller2(1);
     game::Chestnut chestnut(400.0f, 0.5f, 250.0f, WIDTH, HEIGHT);
-    game::Player player1(controller1, chestnut, true, 0.0f, 0.0f, WIDTH, HEIGHT);
-    game::Player player2(controller2, chestnut, false, WIDTH - 50.0f, 0.0f, WIDTH, HEIGHT);
+    game::Health player1_health(true, WIDTH, HEIGHT);
+    game::Health player2_health(false, WIDTH, HEIGHT);
+    game::Player player1(controller1, player1_health, chestnut, true, 0.0f, 0.0f, WIDTH, HEIGHT);
+    game::Player player2(controller2, player2_health, chestnut, false, WIDTH - 50.0f, 0.0f, WIDTH, HEIGHT);
     game::Background background(WIDTH, HEIGHT);
     game::Leaves leaves(WIDTH, HEIGHT);
 
@@ -142,6 +145,8 @@ int main(int argc, char *argv[]) {
             player2.draw();
             chestnut.draw();
             leaves.draw();
+            player1_health.draw();
+            player2_health.draw();
         }
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
