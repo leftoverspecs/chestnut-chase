@@ -8,6 +8,7 @@
 #include <destination.h>
 #include <font.h>
 #include <image.h>
+#include <music.h>
 
 #include <iostream>
 #include <string>
@@ -16,6 +17,7 @@
 
 #include <font.png.h>
 #include <logo.png.h>
+#include <song.mp3.h>
 
 #include "background.h"
 #include "chestnut.h"
@@ -34,7 +36,7 @@ const int WIDTH = 800;
 const int HEIGHT = 600;
 
 int main(int argc, char *argv[]) {
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER /*| SDL_INIT_AUDIO*/) != 0) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER | SDL_INIT_AUDIO) != 0) {
         std::cerr << SDL_GetError() << std::endl;
         return EXIT_FAILURE;
     }
@@ -72,7 +74,8 @@ int main(int argc, char *argv[]) {
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glViewport(0, 0, WIDTH, HEIGHT);
 
-    //engine::Audio audio(44100, MIX_DEFAULT_FORMAT, 2, 128);
+    engine::Audio audio(44100, MIX_DEFAULT_FORMAT, 2, 128);
+    engine::Music music(song, sizeof(song));
     engine::Font font(WIDTH, HEIGHT, test_font, sizeof(test_font));
     engine::Destination destination(WIDTH, HEIGHT);
     engine::Controller controller1(0);
@@ -85,6 +88,7 @@ int main(int argc, char *argv[]) {
 
     bool quit = false;
     long last = SDL_GetTicks64();
+    music.play(-1);
     while (!quit) {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
