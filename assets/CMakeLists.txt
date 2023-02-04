@@ -23,6 +23,7 @@ convert_to_header(test_spritemap.png test_spritemap)
 convert_to_header(sprite.vert sprite_vert)
 convert_to_header(sprite.frag sprite_frag)
 
+convert_to_header(dust.png dust)
 convert_to_header(player.png player)
 convert_to_header(player2.png player2)
 convert_to_header(leaves.png leaves)
@@ -65,6 +66,8 @@ add_library(assets INTERFACE
     "${CMAKE_CURRENT_BINARY_DIR}/destination.frag.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/destination.vert"
     "${CMAKE_CURRENT_BINARY_DIR}/destination.vert.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/dust.png"
+    "${CMAKE_CURRENT_BINARY_DIR}/dust.png.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/font.png"
     "${CMAKE_CURRENT_BINARY_DIR}/font.png.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/logo.png"

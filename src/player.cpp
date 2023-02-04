@@ -1,5 +1,6 @@
 #include "player.h"
 
+#include <dust.png.h>
 #include <player.png.h>
 #include <player2.png.h>
 
@@ -26,7 +27,7 @@ const float MAX_HORIZONTAL_SPEED = 10.0f;
 const float GROUND = 10.0f;
 const float GROUND_MARGIN = GROUND + 10.0f;
 const float LEFT_BORDER = 25.0f;
-const float RIGHT_BORDER = 35.0f;
+const float RIGHT_BORDER = 45.0f;
 
 }
 
@@ -35,9 +36,11 @@ Player::Player(engine::Controller &controller, bool female, float x, float y, GL
     time(0.0f),
     sprites(female ? player : player2, female ? sizeof(player) : sizeof(player2), female ? 9 : 13, female ? 7 : 16),
     renderer(sprites, width, height),
+    dust_particles(1000, dust, sizeof(dust), width, height),
     controller(&controller),
     sprite_index_i(0),
     sprite_index_j(0),
+    face_left(!female),
     position(x, y),
     velocity(0.0f, 0.0f),
     jump_velocity(0.0f, 0.0f),
@@ -57,10 +60,12 @@ void Player::update(float msec) {
     intensity = controller->is_button_left_pressed();
     if (intensity > 0) {
         velocity.x -= HORIZONTAL_SPEED; // HORIZONTAL_ACCELERATION * msec;
+        face_left = true;
     }
     intensity = controller->is_button_right_pressed();
     if (intensity > 0) {
         velocity.x += HORIZONTAL_SPEED; // HORIZONTAL_ACCELERATION * msec;
+        face_left = false;
     }
     intensity = controller->get_right_trigger();
     if (intensity > 0) {
@@ -81,11 +86,14 @@ void Player::update(float msec) {
         velocity.y = 0.0f;
         last_time_standing = 0.0f;
     }
+    if (female) {
+        //std::cout << position.x << ", " << position.y << '\n';
+    }
     if (position.x < LEFT_BORDER) {
         position.x = LEFT_BORDER;
         velocity.x = 0.0f;
-    } else if (position.x > screen_width - 128.0f + RIGHT_BORDER) {
-        position.x = screen_width - 128.0f + RIGHT_BORDER;
+    } else if (position.x > screen_width - RIGHT_BORDER) {
+        position.x = screen_width - RIGHT_BORDER;
         velocity.x = 0.0f;
     }
 
@@ -128,6 +136,14 @@ void Player::update(float msec) {
             // Player walks
             sprite_index_i = static_cast<int>(std::floor(time / 100.0f)) % 8;
             sprite_index_j = 1;
+            if (std::abs(velocity.x) > 0.1f) {
+                for (int i = 0; i < 10; ++i) {
+                    dust_particles.add_particle(200.0f,
+                                                position.x - 15.0f + (velocity.x > 0 ? -50.0f : 50.0f) + 20.0 * static_cast<float>(rand()) / RAND_MAX,
+                                                position.y + 2.0f + 20.0 * static_cast<float>(rand()) / RAND_MAX,
+                                                0.0f, 0.0f);
+                }
+            }
         } else {
             // Player is idle
             if (female) {
@@ -139,14 +155,16 @@ void Player::update(float msec) {
         }
     }
     //std::cout << sprite_index_i << ", " << sprite_index_j << '\n';
+    dust_particles.update(msec);
 }
 
 void Player::draw() {
+    dust_particles.draw();
     renderer.clear();
     glm::mat4 model(1.0f);
     model = glm::translate(model, glm::vec3(position, 0.0f));
     model = glm::scale(model, glm::vec3(128.0f, 128.0f, 1.0f));
-    model = glm::scale(model, glm::vec3(velocity.x > 0.0f ? 1.0f : -1.0f, 1.0f, 1.0f));
+    model = glm::scale(model, glm::vec3(face_left ? -1.0f : 1.0f, 1.0f, 1.0f));
     model = glm::translate(model, glm::vec3(-0.5f, 0.0f, 0.0f));
     renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), sprite_index_i, sprite_index_j);
     renderer.draw();

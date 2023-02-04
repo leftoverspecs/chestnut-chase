@@ -3,6 +3,7 @@
 #include <glm/vec2.hpp>
 
 #include <controller.h>
+#include <particles.h>
 #include <spritemap.h>
 #include <spriterenderer.h>
 
@@ -21,9 +22,11 @@ private:
     float time;
     engine::SpriteMap sprites;
     engine::SpriteRenderer renderer;
+    engine::Particles dust_particles;
     engine::Controller *controller;
     int sprite_index_i;
     int sprite_index_j;
+    bool face_left;
     glm::vec2 position;
     glm::vec2 velocity;
     glm::vec2 jump_velocity;
