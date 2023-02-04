@@ -27,6 +27,7 @@ private:
     glm::vec2 velocity;
     glm::vec2 jump_velocity;
     float last_time_standing;
+    float slash_time;
     float screen_width;
 };
 

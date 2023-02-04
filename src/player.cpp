@@ -40,6 +40,7 @@ Player::Player(engine::Controller &controller, float x, float y, GLfloat width, 
     velocity(0.0f, 0.0f),
     jump_velocity(0.0f, 0.0f),
     last_time_standing(0.0f),
+    slash_time(0.0f),
     screen_width(width)
 { }
 
@@ -59,6 +60,13 @@ void Player::update(float msec) {
     if (intensity > 0) {
         velocity.x += HORIZONTAL_SPEED; // HORIZONTAL_ACCELERATION * msec;
     }
+    intensity = controller->get_right_trigger();
+    if (intensity > 0) {
+        slash_time += msec;
+    } else {
+        slash_time = 0;
+    }
+
     velocity.x /= HORIZONTAL_FRICTION;
     if (std::abs(velocity.x) < HORIZONTAL_THRESHOLD) {
         velocity.x = 0.0f;
@@ -79,7 +87,11 @@ void Player::update(float msec) {
         velocity.x = 0.0f;
     }
 
-    if (position.y > GROUND_MARGIN) {
+    if (slash_time > 0) {
+        // Player drew its sword
+        sprite_index_j = 2;
+        sprite_index_i = std::min(static_cast<int>(std::floor(slash_time / 100.0f)) + 1, 6);
+    } else if (position.y > GROUND_MARGIN) {
         // Player is in air
         sprite_index_j = 5;
         if (velocity.y > 0.0f) {
