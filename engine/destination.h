@@ -21,21 +21,26 @@ public:
         Exception(const char *message) : std::runtime_error(message) { }
     };
 
-    Destination(GLsizei width, GLsizei height);
+    Destination(GLsizei screen_width, GLsizei screen_height);
 
     Framebuffer::Binding bind_as_target() const;
 
     void draw(const glm::mat4x4 &projection, const glm::vec3 &color) const;
 
+    void set_gamma(float gamma);
+    void set_exposure(float exposure);
+
 private:
     Program shader;
-    GLsizei width;
-    GLsizei height;
+    GLsizei screen_width;
+    GLsizei screen_height;
     Framebuffer framebuffer;
     Texture destination;
     Renderbuffer depth_stencil;
     VertexArray vao;
     Buffer screen_vertices;
+    float gamma;
+    float exposure;
 };
 
 }

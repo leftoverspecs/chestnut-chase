@@ -23,9 +23,11 @@ const int ATTRIBUTE_TEXTURE_COORD = 1;
 
 }
 
-Destination::Destination(GLsizei width, GLsizei height)
-  : width(width),
-    height(height)
+Destination::Destination(GLsizei screen_width, GLsizei screen_height)
+  : screen_width(screen_width),
+    screen_height(screen_height),
+    gamma(2.2f),
+    exposure(1.0f)
 {
     shader.attach(Shader(GL_VERTEX_SHADER, reinterpret_cast<const char *>(destination_vert), sizeof(destination_vert)));
     shader.attach(Shader(GL_FRAGMENT_SHADER, reinterpret_cast<const char *>(destination_frag), sizeof(destination_frag)));
@@ -45,7 +47,7 @@ Destination::Destination(GLsizei width, GLsizei height)
     }
     {
         auto binding = destination.bind(GL_TEXTURE0, GL_TEXTURE_2D);
-        binding.image_2d(0, GL_RGB16F, width, height, 0, GL_RGBA, GL_FLOAT, nullptr);
+        binding.image_2d(0, GL_RGB16F, screen_width, screen_height, 0, GL_RGBA, GL_FLOAT, nullptr);
         binding.set_parameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         binding.set_parameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         binding.set_parameter(GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -53,7 +55,7 @@ Destination::Destination(GLsizei width, GLsizei height)
     }
     {
         auto binding = depth_stencil.bind(GL_RENDERBUFFER);
-        binding.storage(GL_DEPTH24_STENCIL8, width, height);
+        binding.storage(GL_DEPTH24_STENCIL8, screen_width, screen_height);
     }
     {
         auto binding = framebuffer.bind(GL_FRAMEBUFFER);
@@ -66,14 +68,24 @@ Destination::Destination(GLsizei width, GLsizei height)
 }
 
 Framebuffer::Binding Destination::bind_as_target() const {
-    glViewport(0, 0, width, height);
+    glViewport(0, 0, screen_width, screen_height);
     return framebuffer.bind(GL_FRAMEBUFFER);
+}
+
+void Destination::set_gamma(float gamma) {
+    this->gamma = gamma;
+}
+
+void Destination::set_exposure(float exposure) {
+    this->exposure = exposure;
 }
 
 void Destination::draw(const glm::mat4x4 &projection, const glm::vec3 &color) const {
     auto usage = shader.use();
     usage.set_uniform("projection", projection);
     usage.set_uniform("color", color);
+    usage.set_uniform("gamma", gamma);
+    usage.set_uniform("exposure", exposure);
     auto binding = vao.bind();
     auto destination_texture_binding = destination.bind(GL_TEXTURE0, GL_TEXTURE_2D);
     glDrawArrays(GL_TRIANGLES, 0, sizeof(screen_vertex_data) / 4);

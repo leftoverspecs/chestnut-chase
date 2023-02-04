@@ -88,7 +88,9 @@ int main(int argc, char *argv[]) {
 
     bool quit = false;
     long last = SDL_GetTicks64();
-    music.play(-1);
+    float exposure = 1.6f;
+    float gamma = 1.4f;
+    //music.play(-1);
     while (!quit) {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
@@ -100,6 +102,22 @@ int main(int argc, char *argv[]) {
                 switch (event.key.keysym.sym) {
                 case SDLK_ESCAPE:
                     quit = true;
+                    break;
+                case SDLK_KP_PLUS:
+                    gamma += 0.1f;
+                    std::cout << "gamma = " << gamma << '\n';
+                    break;
+                case SDLK_KP_MINUS:
+                    gamma -= 0.1f;
+                    std::cout << "gamma = " << gamma << '\n';
+                    break;
+                case SDLK_PAGEUP:
+                    exposure += 0.1f;
+                    std::cout << "exposure = " << exposure << '\n';
+                    break;
+                case SDLK_PAGEDOWN:
+                    exposure -= 0.1f;
+                    std::cout << "exposure = " << exposure << '\n';
                     break;
                 }
                 break;
@@ -127,6 +145,8 @@ int main(int argc, char *argv[]) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        destination.set_exposure(exposure);
+        destination.set_gamma(gamma);
         destination.draw(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
         SDL_GL_SwapWindow(window);
 
