@@ -22,7 +22,7 @@ Background::Background(float width, float height)
 { }
 
 void Background::update(float x) {
-    delta = (1.5f - 1.0f) * (x  - width);
+    delta = x - width;
 }
 
 void Background::draw() {
@@ -31,8 +31,8 @@ void Background::draw() {
     renderer3.clear();
 
     glm::mat4 model(1.0f);
-    model = glm::translate(model, glm::vec3((1.5f - 1.0f) * delta, 0.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(width * 1.5f, height, 1.0f));
+    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+    model = glm::scale(model, glm::vec3(width, height, 1.0f));
     renderer1.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 0, 0);
 
     model = glm::mat4(1.0f);
@@ -41,8 +41,8 @@ void Background::draw() {
     renderer2.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 0, 0);
 
     model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3((1.1f - 1.0f) * delta, 0.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(width * 1.1f, height, 1.0f));
+    model = glm::translate(model, glm::vec3((1.5f - 1.0f) * delta, 0.0f, 0.0f));
+    model = glm::scale(model, glm::vec3(width * 1.5f, height, 1.0f));
     renderer3.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 0, 0);
 
     renderer3.draw();

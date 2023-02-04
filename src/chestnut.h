@@ -44,6 +44,11 @@ private:
     glm::vec2 velocity;
     engine::Box fruit;
     engine::Box stem;
+
+    bool capsule_fly;
+    glm::vec2 capsule1;
+    glm::vec2 capsule2;
+    glm::vec2 capsule_velocity;
 };
 
 }

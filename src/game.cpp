@@ -88,8 +88,8 @@ int main(int argc, char *argv[]) {
 
     bool quit = false;
     long last = SDL_GetTicks64();
-    float exposure = 1.6f;
-    float gamma = 1.4f;
+    float exposure = 3.2f;
+    float gamma = 0.6f;
     //music.play(-1);
     while (!quit) {
         SDL_Event event;
@@ -133,7 +133,8 @@ int main(int argc, char *argv[]) {
 
             player1.update(diff);
             player2.update(diff);
-            background.update((0.5f * (player1.get_position() + player2.get_position())).x);
+            const glm::vec2 mid = 0.5f * (player1.get_position() + player2.get_position());
+            background.update(mid.x);
             chestnut.update(diff);
 
             background.draw();

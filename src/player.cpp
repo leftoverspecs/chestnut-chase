@@ -16,8 +16,8 @@ namespace {
 
 glm::vec2 GRAVITY(0.0f, -0.0025f);
 
-const float JUMP_STRENGTH = 0.275f;
-const float JUMP_COOLDOWN = 100.0f;
+const float JUMP_STRENGTH = 1.0f;
+const float JUMP_COOLDOWN = 200.0f;
 
 const float HORIZONTAL_SPEED = 0.1f;
 const float HORIZONTAL_FRICTION = 1.1f;
@@ -58,9 +58,9 @@ void Player::update(float msec) {
     velocity += GRAVITY * msec;
     int intensity = controller->is_button_a_pressed();
     if (intensity > 0 && last_time_standing < JUMP_COOLDOWN) {
-        velocity.y += JUMP_STRENGTH;
-        last_time_standing += msec;
+        velocity.y = JUMP_STRENGTH;
     }
+    last_time_standing += msec;
     intensity = controller->is_button_left_pressed();
     if (intensity > 0) {
         velocity.x -= HORIZONTAL_SPEED; // HORIZONTAL_ACCELERATION * msec;
