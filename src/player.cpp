@@ -55,33 +55,42 @@ Player::Player(game::Screen &screen,
     velocity(0.0f, 0.0f),
     last_time_standing(0.0f),
     slash_time(0.0f),
+    dead_time(0.0f),
     screen_width(screen_width),
-    hit_cooldown(0.0f)
+    hit_cooldown(0.0f),
+    other(nullptr)
 { }
+
+void Player::set_other(const Player &other) {
+    this->other = &other;
+}
 
 void Player::update(float msec) {
     time += msec;
+
     velocity += GRAVITY * msec;
-    int intensity = controller->is_button_a_pressed();
-    if (intensity > 0 && last_time_standing < JUMP_COOLDOWN) {
-        velocity.y = JUMP_STRENGTH;
-    }
-    last_time_standing += msec;
-    intensity = controller->is_button_left_pressed();
-    if (intensity > 0) {
-        velocity.x -= HORIZONTAL_SPEED; // HORIZONTAL_ACCELERATION * msec;
-        face_left = true;
-    }
-    intensity = controller->is_button_right_pressed();
-    if (intensity > 0) {
-        velocity.x += HORIZONTAL_SPEED; // HORIZONTAL_ACCELERATION * msec;
-        face_left = false;
-    }
-    intensity = controller->get_right_trigger();
-    if (intensity > 0) {
-        slash_time += msec;
-    } else {
-        slash_time = 0;
+    if (!is_dead() && !other->is_dead()) {
+        int intensity = controller->is_button_a_pressed();
+        if (intensity > 0 && last_time_standing < JUMP_COOLDOWN) {
+            velocity.y = JUMP_STRENGTH;
+        }
+        last_time_standing += msec;
+        intensity = controller->is_button_left_pressed();
+        if (intensity > 0) {
+            velocity.x -= HORIZONTAL_SPEED; // HORIZONTAL_ACCELERATION * msec;
+            face_left = true;
+        }
+        intensity = controller->is_button_right_pressed();
+        if (intensity > 0) {
+            velocity.x += HORIZONTAL_SPEED; // HORIZONTAL_ACCELERATION * msec;
+            face_left = false;
+        }
+        intensity = controller->get_right_trigger();
+        if (intensity > 0) {
+            slash_time += msec;
+        } else {
+            slash_time = 0;
+        }
     }
 
     velocity.x /= HORIZONTAL_FRICTION;
@@ -107,7 +116,12 @@ void Player::update(float msec) {
         velocity.x = 0.0f;
     }
 
-    if (slash_time > 0.0f) {
+    if (is_dead()) {
+        dead_time += msec;
+        velocity = glm::vec2(0.0f, 0.0f);
+        sprite_index_j = female ? 4 : 7;
+        sprite_index_i = std::min(static_cast<int>(std::floor(dead_time / 500.0f)) + 1, 6);
+    } else if (slash_time > 0.0f) {
         // Player drew its sword
         sprite_index_j = 2;
         sprite_index_i = std::min(static_cast<int>(std::floor(slash_time / 100.0f)) + 1, 8);
@@ -177,7 +191,7 @@ void Player::update(float msec) {
     } else {
         hit_cooldown = 0.0f;
     }
-    if (hit_cooldown == 0.0f && chestnuts->hits(body)) {
+    if (!is_dead() && !other->is_dead() && hit_cooldown == 0.0f && chestnuts->hits(body)) {
         screen->shaking();
         screen->colorize(glm::vec3(10.0f, 0.0f, 0.0f));
         health->adjust(-10.0f);
@@ -203,6 +217,10 @@ void Player::draw() {
     renderer.draw();
     body.draw(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
     sword.draw(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+}
+
+bool Player::is_dead() const {
+    return health->get_value() <= 0.0f;
 }
 
 }

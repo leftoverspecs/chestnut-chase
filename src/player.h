@@ -22,9 +22,12 @@ public:
            game::Chestnuts &chestnuts, bool female, float x, float y, GLfloat width, GLfloat height);
 
     glm::vec2 get_position() const { return position; }
+    void set_other(const Player &other);
 
     void update(float msec);
     void draw();
+
+    bool is_dead() const;
 private:
     game::Screen *screen;
     bool female;
@@ -44,8 +47,10 @@ private:
     glm::vec2 velocity;
     float last_time_standing;
     float slash_time;
+    float dead_time;
     float screen_width;
     float hit_cooldown;
+    const Player *other;
 };
 
 }

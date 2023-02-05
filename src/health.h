@@ -18,6 +18,8 @@ public:
     void adjust(float update);
     void draw();
 
+    int get_value() const { return value; }
+
 private:
     engine::SpriteMap sprites;
     engine::SpriteRenderer renderer;

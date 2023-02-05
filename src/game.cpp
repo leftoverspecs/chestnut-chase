@@ -81,7 +81,6 @@ int main(int argc, char *argv[]) {
     engine::Music music(song, sizeof(song));
     engine::Font font(WIDTH, HEIGHT, test_font, sizeof(test_font));
     game::Screen screen(WIDTH, HEIGHT);
-    //engine::Destination destination(WIDTH, HEIGHT);
     engine::Controller controller1(0);
     engine::Controller controller2(1);
     game::Score score(font, WIDTH, HEIGHT);
@@ -90,6 +89,8 @@ int main(int argc, char *argv[]) {
     game::Health player2_health(false, WIDTH, HEIGHT);
     game::Player player1(screen, controller1, player1_health, chestnuts, true, 0.0f, 0.0f, WIDTH, HEIGHT);
     game::Player player2(screen, controller2, player2_health, chestnuts, false, WIDTH - 50.0f, 0.0f, WIDTH, HEIGHT);
+    player1.set_other(player2);
+    player2.set_other(player1);
     game::Background background(WIDTH, HEIGHT);
     game::Leaves leaves(WIDTH, HEIGHT);
 
@@ -144,7 +145,15 @@ int main(int argc, char *argv[]) {
             player2.update(diff);
             const glm::vec2 mid = 0.5f * (player1.get_position() + player2.get_position());
             background.update(mid.x);
-            chestnuts.update(diff);
+
+            if (!player1.is_dead() && !player2.is_dead()) {
+                chestnuts.update(diff);
+            } else {
+                glm::mat4 model(1.0f);
+                model = glm::translate(model, glm::vec3(WIDTH / 2.0f - 300.0f, HEIGHT / 2.0f - 20.0f, 0.0f));
+                model = glm::scale(model, glm::vec3(2.0f * font.get_width(), 2.0f * font.get_height(), 1.0f));
+                font.write(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "Game Over!");
+            }
 
             background.draw();
             player1.draw();
