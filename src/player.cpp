@@ -125,7 +125,7 @@ void Player::update(float msec) {
         // Player drew its sword
         sprite_index_j = 2;
         sprite_index_i = std::min(static_cast<int>(std::floor(slash_time / 100.0f)) + 1, 8);
-        if (sprite_index_j < 8) {
+        if (sprite_index_i < 8) {
             chestnuts->hit(female, sword, velocity);
         }
     } else if (position.y > GROUND_MARGIN) {
@@ -168,7 +168,7 @@ void Player::update(float msec) {
                     dust_particles.add_particle(200.0f,
                                                 position.x - 15.0f + (velocity.x > 0 ? -50.0f : 50.0f) + 20.0 * static_cast<float>(rand()) / RAND_MAX,
                                                 position.y + 2.0f + 20.0 * static_cast<float>(rand()) / RAND_MAX,
-                                                0.0f, 0.0f);
+                                                0.0f, 0.1f * (static_cast<float>(rand()) / RAND_MAX - 0.5f));
                 }
             }
         } else {

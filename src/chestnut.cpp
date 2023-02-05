@@ -5,6 +5,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <chestnut.png.h>
+#include <glow.png.h>
+
 
 namespace game {
 
@@ -27,7 +29,8 @@ Chestnut::Chestnut(Score &score, float x, float growth_rate, float max_length, f
     capsule2(0.0f, 0.0f),
     capsule_velocity(0.0f, 0.0f),
     health(20.0f),
-    hit_cooldown(0.0f)
+    hit_cooldown(0.0f),
+    glow_particle(1000, glow, sizeof(glow), screen_width, screen_height)
 { }
 
 void Chestnut::update(float msec) {
@@ -53,10 +56,18 @@ void Chestnut::update(float msec) {
             max_length /= 2.0f;
             velocity = glm::vec2(0.0f, 0.0f);
         }
-        if (position.x < 25.0f || position.x > screen_width - 45.0f) {
+        if (position.x < 0.0f || position.x > screen_width) {
             if (state == State::FALLING_OPEN_PLAYER1 || state == State::FALLING_OPEN_PLAYER2) {
                 score->increase();
                 state = State::HARVESTED;
+                const bool left = position.x < 25.0f;
+                for (int i = 0; i < 100; ++i) {
+                    glow_particle.add_particle(static_cast<float>(rand()) / RAND_MAX * 2000.0f,
+                                               left ? -10.0f : screen_width + 10.0f,
+                                               position.y,
+                                               (left ? 0.1f : -0.1f) * rand() / RAND_MAX,
+                                               0.1f * (static_cast<float>(rand()) / RAND_MAX - 0.5));
+                    }
             }
         }
         break;
@@ -88,6 +99,7 @@ void Chestnut::update(float msec) {
         stem.relocate(position.x - 10.0f, 0.0f);
         stem.resize(20.0f, position.y);
     }
+    glow_particle.update(msec);
 }
 
 void Chestnut::draw() {
@@ -158,6 +170,7 @@ void Chestnut::draw() {
     }
 
     renderer.draw();
+    glow_particle.draw();
     //fruit.draw(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
     //stem.draw(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 }
@@ -216,7 +229,7 @@ bool Chestnut::hits(const engine::Box &body) const {
 }
 
 bool Chestnut::is_inactive() const {
-    return state == State::DEAD || state == State::HARVESTED;
+    return glow_particle.is_empty() && (state == State::DEAD || state == State::HARVESTED);
 }
 
 }

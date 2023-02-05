@@ -17,6 +17,8 @@ public:
     void update(GLfloat ticks);
     void draw();
 
+    bool is_empty() const;
+
 private:
     SpriteMap sprite;
     SpriteRenderer renderer;

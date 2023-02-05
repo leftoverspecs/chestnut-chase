@@ -27,6 +27,7 @@ convert_to_header(box.vert box_vert)
 convert_to_header(box.frag box_frag)
 convert_to_header(chestnut.png chestnut)
 convert_to_header(dust.png dust)
+convert_to_header(glow.png glow)
 convert_to_header(player.png player)
 convert_to_header(player2.png player2)
 convert_to_header(leaves.png leaves)
@@ -80,6 +81,8 @@ add_library(assets INTERFACE
     "${CMAKE_CURRENT_BINARY_DIR}/dust.png.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/font.png"
     "${CMAKE_CURRENT_BINARY_DIR}/font.png.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/glow.png"
+    "${CMAKE_CURRENT_BINARY_DIR}/glow.png.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/logo.png"
     "${CMAKE_CURRENT_BINARY_DIR}/logo.png.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/player.png"

@@ -27,6 +27,7 @@ void Health::draw() {
     model = glm::scale(model, glm::vec3(50.0f, 50.0f, 1.0f));
     model = glm::scale(model, glm::vec3(female ? 1.0f : -1.0f, 1.0f, 1.0f));
     model = glm::translate(model, glm::vec3(-14.0f / 32.0f, 0.0f, 0.0f));
+    renderer.clear();
     renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0), 0, 0);
     renderer.draw();
 

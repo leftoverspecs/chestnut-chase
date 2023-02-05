@@ -1,6 +1,7 @@
 #pragma once
 
 #include <box.h>
+#include <particles.h>
 #include <spritemap.h>
 #include <spriterenderer.h>
 
@@ -59,6 +60,8 @@ private:
 
     float health;
     float hit_cooldown;
+
+    engine::Particles glow_particle;
 };
 
 }

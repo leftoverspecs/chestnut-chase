@@ -48,4 +48,13 @@ void Particles::draw() {
     renderer.draw();
 }
 
+bool Particles::is_empty() const {
+    for (auto &p : particles) {
+        if (p.life > 0.0f) {
+            return false;
+        }
+    }
+    return true;
+}
+
 }
