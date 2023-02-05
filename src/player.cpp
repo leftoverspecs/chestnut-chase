@@ -2,6 +2,7 @@
 
 #include "chestnuts.h"
 #include "health.h"
+#include "screen.h"
 
 #include <dust.png.h>
 #include <player.png.h>
@@ -34,8 +35,10 @@ const float RIGHT_BORDER = 45.0f;
 
 }
 
-Player::Player(engine::Controller &controller, game::Health &health, game::Chestnuts &chestnuts, bool female, float x, float y, GLfloat screen_width, GLfloat screen_height)
-  : female(female),
+Player::Player(game::Screen &screen,
+               engine::Controller &controller, game::Health &health, game::Chestnuts &chestnuts, bool female, float x, float y, GLfloat screen_width, GLfloat screen_height)
+  : screen(&screen),
+    female(female),
     time(0.0f),
     sprites(female ? player : player2, female ? sizeof(player) : sizeof(player2), female ? 9 : 13, female ? 7 : 16),
     renderer(sprites, screen_width, screen_height),
@@ -175,6 +178,8 @@ void Player::update(float msec) {
         hit_cooldown = 0.0f;
     }
     if (hit_cooldown == 0.0f && chestnuts->hits(body)) {
+        screen->shaking();
+        screen->colorize(glm::vec3(10.0f, 0.0f, 0.0f));
         health->adjust(-10.0f);
         controller->rumble(0xffff * 3 / 4, 0xffff * 3 / 4, 100);
         hit_cooldown = 1000.0f;

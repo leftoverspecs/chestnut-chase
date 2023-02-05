@@ -12,10 +12,12 @@ namespace game {
 
 class Chestnuts;
 class Health;
+class Screen;
 
 class Player {
 public:
-    Player(engine::Controller &controller,
+    Player(game::Screen &destination,
+           engine::Controller &controller,
            game::Health &health,
            game::Chestnuts &chestnuts, bool female, float x, float y, GLfloat width, GLfloat height);
 
@@ -24,6 +26,7 @@ public:
     void update(float msec);
     void draw();
 private:
+    game::Screen *screen;
     bool female;
     float time;
     engine::SpriteMap sprites;

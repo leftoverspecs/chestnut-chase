@@ -14,6 +14,8 @@ add_executable(chestnutchase WIN32
     player.h
     score.cpp
     score.h
+    screen.cpp
+    screen.h
 )
 target_link_libraries(chestnutchase PRIVATE
     CONAN_PKG::sdl

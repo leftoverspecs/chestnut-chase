@@ -25,6 +25,7 @@
 #include "leaves.h"
 #include "player.h"
 #include "score.h"
+#include "screen.h"
 
 #ifdef _WIN32
 extern "C" {
@@ -79,15 +80,16 @@ int main(int argc, char *argv[]) {
     engine::Audio audio(44100, MIX_DEFAULT_FORMAT, 2, 128);
     engine::Music music(song, sizeof(song));
     engine::Font font(WIDTH, HEIGHT, test_font, sizeof(test_font));
-    engine::Destination destination(WIDTH, HEIGHT);
+    game::Screen screen(WIDTH, HEIGHT);
+    //engine::Destination destination(WIDTH, HEIGHT);
     engine::Controller controller1(0);
     engine::Controller controller2(1);
     game::Score score(font, WIDTH, HEIGHT);
     game::Chestnuts chestnuts(score, WIDTH, HEIGHT);
     game::Health player1_health(true, WIDTH, HEIGHT);
     game::Health player2_health(false, WIDTH, HEIGHT);
-    game::Player player1(controller1, player1_health, chestnuts, true, 0.0f, 0.0f, WIDTH, HEIGHT);
-    game::Player player2(controller2, player2_health, chestnuts, false, WIDTH - 50.0f, 0.0f, WIDTH, HEIGHT);
+    game::Player player1(screen, controller1, player1_health, chestnuts, true, 0.0f, 0.0f, WIDTH, HEIGHT);
+    game::Player player2(screen, controller2, player2_health, chestnuts, false, WIDTH - 50.0f, 0.0f, WIDTH, HEIGHT);
     game::Background background(WIDTH, HEIGHT);
     game::Leaves leaves(WIDTH, HEIGHT);
 
@@ -134,7 +136,7 @@ int main(int argc, char *argv[]) {
         {
             font.clear();
 
-            auto binding = destination.bind_as_target();
+            auto binding = screen.bind_as_target();
             glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
@@ -157,9 +159,8 @@ int main(int argc, char *argv[]) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        destination.set_exposure(exposure);
-        destination.set_gamma(gamma);
-        destination.draw(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+        screen.update(diff);
+        screen.draw();
         SDL_GL_SwapWindow(window);
 
         if (diff > 0) {
