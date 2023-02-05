@@ -19,7 +19,7 @@ void Chestnuts::update(float msec) {
                                             0.1f * static_cast<float>(rand()) / RAND_MAX + 0.05f,
                                             200.0f * static_cast<float>(rand()) / RAND_MAX + 150.0f,
                                             screen_width, screen_height));
-        cooldown = 2000.0f * static_cast<float>(rand()) / RAND_MAX + 3000.0f - 0.06f * time;
+        cooldown = 2000.0f * static_cast<float>(rand()) / RAND_MAX + 3000.0f - 0.012 * time ;
     }
     for (auto &item : container) {
         if (item) {

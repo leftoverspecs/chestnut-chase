@@ -28,6 +28,7 @@ private:
     bool female;
     float value;
     engine::Box bar;
+    engine::Box background;
 };
 
 }
