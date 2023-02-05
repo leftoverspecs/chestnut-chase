@@ -13,6 +13,7 @@ class Chestnut {
 public:
     enum class State {
         HANGING,
+        FALLING_CLOSED_ALONE,
         FALLING_CLOSED_PLAYER1,
         FALLING_CLOSED_PLAYER2,
         FALLING_OPEN_PLAYER1,

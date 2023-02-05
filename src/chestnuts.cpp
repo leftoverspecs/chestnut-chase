@@ -6,18 +6,20 @@ Chestnuts::Chestnuts(Score &score, float screen_width, float screen_height)
   : score(&score),
     screen_width(screen_width),
     screen_height(screen_height),
+    time(0.0f),
     cooldown(0.0f)
 { }
 
 void Chestnuts::update(float msec) {
     cooldown -= msec;
+    time += msec;
     if (cooldown < 0.0f) {
         container.emplace_back(new Chestnut(*score,
                                             (screen_width - 50.0f) * static_cast<float>(rand()) / RAND_MAX + 25.0f,
                                             0.1f * static_cast<float>(rand()) / RAND_MAX + 0.05f,
                                             200.0f * static_cast<float>(rand()) / RAND_MAX + 150.0f,
                                             screen_width, screen_height));
-        cooldown = 2000.0f * static_cast<float>(rand()) / RAND_MAX + 3000.0f;
+        cooldown = 2000.0f * static_cast<float>(rand()) / RAND_MAX + 3000.0f - 0.06f * time;
     }
     for (auto &item : container) {
         if (item) {

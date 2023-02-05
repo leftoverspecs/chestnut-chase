@@ -7,7 +7,6 @@
 #include <chestnut.png.h>
 #include <glow.png.h>
 
-
 namespace game {
 
 Chestnut::Chestnut(Score &score, float x, float growth_rate, float max_length, float screen_width, float screen_height)
@@ -42,7 +41,12 @@ void Chestnut::update(float msec) {
     case State::HANGING:
         time += msec;
         position.y = screen_height - max_length * growth_rate * time / (growth_rate * time + max_length);
+        if (position.y < screen_height - max_length + 100.0f) {
+            state = State::FALLING_CLOSED_ALONE;
+            velocity = glm::vec2(0.0f, 0.0f);
+        }
         break;
+    case State::FALLING_CLOSED_ALONE:
     case State::FALLING_CLOSED_PLAYER1:
     case State::FALLING_CLOSED_PLAYER2:
     case State::FALLING_OPEN_PLAYER1:
@@ -123,7 +127,7 @@ void Chestnut::draw() {
     model = glm::translate(model, glm::vec3(position, 0.0f));
     model = glm::scale(model, glm::vec3(64.0f, 64.0f, 1.0f));
     model = glm::translate(model, glm::vec3(-0.5f, -0.5f, 0.0f));
-    if (state == State::HANGING || state == State::FALLING_CLOSED_PLAYER1 || state == State::FALLING_CLOSED_PLAYER2) {
+    if (state == State::HANGING || state == State::FALLING_CLOSED_ALONE || state == State::FALLING_CLOSED_PLAYER1 || state == State::FALLING_CLOSED_PLAYER2) {
         renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 0, 0);
     } else if (state == State::FALLING_OPEN_PLAYER1 || state == State::FALLING_OPEN_PLAYER2) {
         renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 1, 0);
@@ -183,6 +187,18 @@ void Chestnut::hit(bool female, const engine::Box &sword, glm::vec2 player_veloc
             velocity = glm::vec2(0.1f * player_velocity.x, 0);
         }
         break;
+    case State::FALLING_CLOSED_ALONE:
+        if (sword.collides_with_box(fruit)) {
+            state = State::FALLING_OPEN_PLAYER2;
+            if (!capsule_fly) {
+                capsule_fly = true;
+                capsule1 = position;
+                capsule2 = position;
+                capsule_velocity = glm::vec2(0.25f, 0.0f);
+            }
+            velocity = glm::vec2(0.3f * player_velocity.x, 1.1f * std::abs(velocity.y));
+        }
+        break;
     case State::FALLING_CLOSED_PLAYER1:
     case State::FALLING_OPEN_PLAYER1:
         if (!female) {
@@ -194,7 +210,7 @@ void Chestnut::hit(bool female, const engine::Box &sword, glm::vec2 player_veloc
                     capsule2 = position;
                     capsule_velocity = glm::vec2(0.25f, 0.0f);
                 }
-                velocity = glm::vec2(0.2f * player_velocity.x, 1.1f * std::abs(velocity.y));
+                velocity = glm::vec2(0.3f * player_velocity.x, 1.1f * std::abs(velocity.y));
             }
         }
         break;
@@ -209,7 +225,7 @@ void Chestnut::hit(bool female, const engine::Box &sword, glm::vec2 player_veloc
                     capsule2 = position;
                     capsule_velocity = glm::vec2(0.25f, 0.0f);
                 }
-                velocity = glm::vec2(0.2f * player_velocity.x, 1.1f * std::abs(velocity.y));
+                velocity = glm::vec2(0.3f * player_velocity.x, 1.1f * std::abs(velocity.y));
             }
         }
         break;

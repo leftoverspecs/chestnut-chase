@@ -25,6 +25,7 @@ private:
     Score *score;
     float screen_width;
     float screen_height;
+    float time;
     float cooldown;
 
     std::list<std::unique_ptr<Chestnut>> container;

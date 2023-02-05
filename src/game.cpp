@@ -172,10 +172,10 @@ int main(int argc, char *argv[]) {
         screen.draw();
         SDL_GL_SwapWindow(window);
 
-        if (diff > 0) {
-            const float fps = 1000.0f / (diff);
-            SDL_SetWindowTitle(window, std::to_string(fps).c_str());
-        }
+        //if (diff > 0) {
+        //    const float fps = 1000.0f / (diff);
+        //    SDL_SetWindowTitle(window, std::to_string(fps).c_str());
+        //}
     }
 
     SDL_GL_DeleteContext(context);
