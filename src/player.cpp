@@ -1,6 +1,6 @@
 #include "player.h"
 
-#include "chestnut.h"
+#include "chestnuts.h"
 #include "health.h"
 
 #include <dust.png.h>
@@ -34,7 +34,7 @@ const float RIGHT_BORDER = 45.0f;
 
 }
 
-Player::Player(engine::Controller &controller, game::Health &health, game::Chestnut &chestnut, bool female, float x, float y, GLfloat screen_width, GLfloat screen_height)
+Player::Player(engine::Controller &controller, game::Health &health, game::Chestnuts &chestnuts, bool female, float x, float y, GLfloat screen_width, GLfloat screen_height)
   : female(female),
     time(0.0f),
     sprites(female ? player : player2, female ? sizeof(player) : sizeof(player2), female ? 9 : 13, female ? 7 : 16),
@@ -42,7 +42,7 @@ Player::Player(engine::Controller &controller, game::Health &health, game::Chest
     dust_particles(1000, dust, sizeof(dust), screen_width, screen_height),
     controller(&controller),
     health(&health),
-    chestnut(&chestnut),
+    chestnuts(&chestnuts),
     sprite_index_i(0),
     sprite_index_j(0),
     face_left(!female),
@@ -109,7 +109,7 @@ void Player::update(float msec) {
         sprite_index_j = 2;
         sprite_index_i = std::min(static_cast<int>(std::floor(slash_time / 100.0f)) + 1, 8);
         if (sprite_index_j < 8) {
-            chestnut->hit(female, sword, velocity);
+            chestnuts->hit(female, sword, velocity);
         }
     } else if (position.y > GROUND_MARGIN) {
         // Player is in air
@@ -174,8 +174,9 @@ void Player::update(float msec) {
     } else {
         hit_cooldown = 0.0f;
     }
-    if (hit_cooldown == 0.0f && chestnut->hits(body)) {
+    if (hit_cooldown == 0.0f && chestnuts->hits(body)) {
         health->adjust(-10.0f);
+        controller->rumble(0xffff * 3 / 4, 0xffff * 3 / 4, 100);
         hit_cooldown = 1000.0f;
         velocity.x = face_left ? 1.0f : -1.0f;
     }

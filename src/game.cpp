@@ -20,10 +20,11 @@
 #include <song.mp3.h>
 
 #include "background.h"
-#include "chestnut.h"
+#include "chestnuts.h"
 #include "health.h"
 #include "leaves.h"
 #include "player.h"
+#include "score.h"
 
 #ifdef _WIN32
 extern "C" {
@@ -81,11 +82,12 @@ int main(int argc, char *argv[]) {
     engine::Destination destination(WIDTH, HEIGHT);
     engine::Controller controller1(0);
     engine::Controller controller2(1);
-    game::Chestnut chestnut(400.0f, 0.5f, 250.0f, WIDTH, HEIGHT);
+    game::Score score(font, WIDTH, HEIGHT);
+    game::Chestnuts chestnuts(score, WIDTH, HEIGHT);
     game::Health player1_health(true, WIDTH, HEIGHT);
     game::Health player2_health(false, WIDTH, HEIGHT);
-    game::Player player1(controller1, player1_health, chestnut, true, 0.0f, 0.0f, WIDTH, HEIGHT);
-    game::Player player2(controller2, player2_health, chestnut, false, WIDTH - 50.0f, 0.0f, WIDTH, HEIGHT);
+    game::Player player1(controller1, player1_health, chestnuts, true, 0.0f, 0.0f, WIDTH, HEIGHT);
+    game::Player player2(controller2, player2_health, chestnuts, false, WIDTH - 50.0f, 0.0f, WIDTH, HEIGHT);
     game::Background background(WIDTH, HEIGHT);
     game::Leaves leaves(WIDTH, HEIGHT);
 
@@ -93,7 +95,7 @@ int main(int argc, char *argv[]) {
     long last = SDL_GetTicks64();
     float exposure = 3.2f;
     float gamma = 0.6f;
-    //music.play(-1);
+    music.play(-1);
     while (!quit) {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
@@ -130,6 +132,8 @@ int main(int argc, char *argv[]) {
         const long diff = next - last;
         last = next;
         {
+            font.clear();
+
             auto binding = destination.bind_as_target();
             glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
@@ -138,15 +142,17 @@ int main(int argc, char *argv[]) {
             player2.update(diff);
             const glm::vec2 mid = 0.5f * (player1.get_position() + player2.get_position());
             background.update(mid.x);
-            chestnut.update(diff);
+            chestnuts.update(diff);
 
             background.draw();
             player1.draw();
             player2.draw();
-            chestnut.draw();
+            chestnuts.draw();
             leaves.draw();
             player1_health.draw();
             player2_health.draw();
+            score.write();
+            font.draw();
         }
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);

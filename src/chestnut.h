@@ -6,6 +6,8 @@
 
 namespace game {
 
+class Score;
+
 class Chestnut {
 public:
     enum class State {
@@ -15,10 +17,11 @@ public:
         FALLING_OPEN_PLAYER1,
         FALLING_OPEN_PLAYER2,
         HARVESTED,
-        GROWING
+        GROWING,
+        DEAD
     };
 
-    Chestnut(float x, float growth_rate, float max_length, float screen_width, float screen_height);
+    Chestnut(Score &score, float x, float growth_rate, float max_length, float screen_width, float screen_height);
 
     Chestnut(const Chestnut &) = delete;
     Chestnut(Chestnut &&) = delete;
@@ -31,7 +34,10 @@ public:
     void hit(bool female, const engine::Box &sword, glm::vec2 player_velocity);
     bool hits(const engine::Box &body) const;
 
+    bool is_inactive() const;
+
 private:
+    game::Score *score;
     engine::SpriteMap sprites;
     engine::SpriteRenderer renderer;
     float screen_height;

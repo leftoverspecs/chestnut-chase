@@ -1,13 +1,16 @@
 #include "chestnut.h"
 
+#include "score.h"
+
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <chestnut.png.h>
 
 namespace game {
 
-Chestnut::Chestnut(float x, float growth_rate, float max_length, float screen_width, float screen_height)
-  : sprites(chestnut, sizeof(chestnut), 7, 1),
+Chestnut::Chestnut(Score &score, float x, float growth_rate, float max_length, float screen_width, float screen_height)
+  : score(&score),
+    sprites(chestnut, sizeof(chestnut), 7, 1),
     renderer(sprites, screen_width, screen_height),
     screen_height(screen_height),
     screen_width(screen_width),
@@ -23,12 +26,12 @@ Chestnut::Chestnut(float x, float growth_rate, float max_length, float screen_wi
     capsule1(0.0f, 0.0f),
     capsule2(0.0f, 0.0f),
     capsule_velocity(0.0f, 0.0f),
-    health(50.0f),
+    health(20.0f),
     hit_cooldown(0.0f)
 { }
 
 void Chestnut::update(float msec) {
-    if (health <= 0.0f) {
+    if (is_inactive()) {
         return;
     }
 
@@ -50,7 +53,10 @@ void Chestnut::update(float msec) {
             velocity = glm::vec2(0.0f, 0.0f);
         }
         if (position.x < 25.0f || position.x > screen_width - 45.0f) {
-            velocity.x = -velocity.x;
+            if (state == State::FALLING_OPEN_PLAYER1 || state == State::FALLING_OPEN_PLAYER2) {
+                score->increase();
+                state = State::HARVESTED;
+            }
         }
         break;
     case State::GROWING:
@@ -84,7 +90,7 @@ void Chestnut::update(float msec) {
 }
 
 void Chestnut::draw() {
-    if (health < 0.0f) {
+    if (is_inactive()) {
         return;
     }
     renderer.clear();
@@ -111,7 +117,7 @@ void Chestnut::draw() {
     } else if (state == State::GROWING) {
         float alpha = 1.0f;
         if (hit_cooldown > 0.0f) {
-            alpha = static_cast<int>(std::floor(hit_cooldown / 5.0f)) % 2;
+            alpha = static_cast<int>(std::floor(hit_cooldown / 10.0f)) % 2;
         }
 
         const int num = static_cast<int>((25.0f + position.y) / 32.0f) - 2;
@@ -196,13 +202,20 @@ void Chestnut::hit(bool female, const engine::Box &sword, glm::vec2 player_veloc
     case State::GROWING:
         if (sword.collides_with_box(stem)) {
             health -= 1.0f;
-            hit_cooldown = 1000.0f;
+            if (health <= 0.0f) {
+                state = State::DEAD;
+            }
+            hit_cooldown = 500.0f;
         }
     }
 }
 
 bool Chestnut::hits(const engine::Box &body) const {
-    return health > 0.0f && state == State::GROWING && body.collides_with_box(stem);
+    return state == State::GROWING && body.collides_with_box(stem);
+}
+
+bool Chestnut::is_inactive() const {
+    return state == State::DEAD || state == State::HARVESTED;
 }
 
 }

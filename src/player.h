@@ -10,14 +10,14 @@
 
 namespace game {
 
-class Chestnut;
+class Chestnuts;
 class Health;
 
 class Player {
 public:
     Player(engine::Controller &controller,
            game::Health &health,
-           game::Chestnut &chestnut, bool female, float x, float y, GLfloat width, GLfloat height);
+           game::Chestnuts &chestnuts, bool female, float x, float y, GLfloat width, GLfloat height);
 
     glm::vec2 get_position() const { return position; }
 
@@ -31,7 +31,7 @@ private:
     engine::Particles dust_particles;
     engine::Controller *controller;
     game::Health *health;
-    game::Chestnut *chestnut;
+    game::Chestnuts *chestnuts;
     int sprite_index_i;
     int sprite_index_j;
     bool face_left;

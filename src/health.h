@@ -1,6 +1,8 @@
 #pragma once
 
 #include <box.h>
+#include <spritemap.h>
+#include <spriterenderer.h>
 
 namespace game {
 
@@ -17,6 +19,10 @@ public:
     void draw();
 
 private:
+    engine::SpriteMap sprites;
+    engine::SpriteRenderer renderer;
+    float screen_width;
+    float screen_height;
     bool female;
     float value;
     engine::Box bar;
