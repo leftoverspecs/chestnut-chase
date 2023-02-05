@@ -5,7 +5,7 @@
 #include <box.h>
 
 #include <memory>
-#include <vector>
+#include <list>
 
 namespace game {
 
@@ -27,7 +27,7 @@ private:
     float screen_height;
     float cooldown;
 
-    std::vector<std::unique_ptr<Chestnut>> container;
+    std::list<std::unique_ptr<Chestnut>> container;
 };
 
 }

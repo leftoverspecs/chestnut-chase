@@ -28,6 +28,7 @@ void Chestnuts::update(float msec) {
             }
         }
     }
+    container.remove_if([] (const std::unique_ptr<Chestnut> &item) { return !item || item->is_inactive(); });
 }
 
 void Chestnuts::draw() {
