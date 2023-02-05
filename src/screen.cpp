@@ -2,6 +2,8 @@
 
 #include <glm/gtx/transform.hpp>
 
+#include <SDL2/SDL_stdinc.h>
+
 namespace game {
 
 Screen::Screen(float screen_width, float screen_height)

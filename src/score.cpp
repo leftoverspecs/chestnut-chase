@@ -2,6 +2,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <string>
+
 namespace game {
 
 Score::Score(engine::Font &font, float screen_width, float screen_height)

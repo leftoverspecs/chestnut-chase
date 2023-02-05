@@ -2,6 +2,8 @@
 
 #include <SDL2/SDL_surface.h>
 
+#include <cstddef>
+
 namespace engine {
 
 class Image {
