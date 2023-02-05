@@ -18,11 +18,11 @@ namespace {
 
 glm::vec2 GRAVITY(0.0f, -0.0025f);
 
-const float JUMP_STRENGTH = 1.0f;
+const float JUMP_STRENGTH = 1.1f;
 const float JUMP_COOLDOWN = 200.0f;
 
-const float HORIZONTAL_SPEED = 0.1f;
-const float HORIZONTAL_FRICTION = 1.1f;
+const float HORIZONTAL_SPEED = 0.15f;
+const float HORIZONTAL_FRICTION = 1.2f;
 const float HORIZONTAL_THRESHOLD = 0.01f;
 
 const float MAX_VERTICAL_SPEED = 10.0f;
@@ -51,7 +51,7 @@ Player::Player(game::Screen &screen,
     face_left(!female),
     position(x, y),
     body(0.0f, 0.0f, 80.0f, 85.0f, screen_width, screen_height),
-    sword(0.0f, 0.0f, 40.0f, 60.0f, screen_width, screen_height),
+    sword(0.0f, 0.0f, 60.0f, 60.0f, screen_width, screen_height),
     velocity(0.0f, 0.0f),
     last_time_standing(0.0f),
     slash_time(0.0f),
@@ -215,8 +215,8 @@ void Player::draw() {
     }
     renderer.queue(model, glm::vec4(1.0f, 1.0f, 1.0f, alpha), sprite_index_i, sprite_index_j);
     renderer.draw();
-    body.draw(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-    sword.draw(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+    //body.draw(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    //sword.draw(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 }
 
 bool Player::is_dead() const {

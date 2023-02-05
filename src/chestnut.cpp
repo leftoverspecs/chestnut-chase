@@ -50,6 +50,7 @@ void Chestnut::update(float msec) {
             state = State::GROWING;
             time = 0.0f;
             position.y = 25.0f;
+            max_length /= 2.0f;
             velocity = glm::vec2(0.0f, 0.0f);
         }
         if (position.x < 25.0f || position.x > screen_width - 45.0f) {
@@ -117,10 +118,10 @@ void Chestnut::draw() {
     } else if (state == State::GROWING) {
         float alpha = 1.0f;
         if (hit_cooldown > 0.0f) {
-            alpha = static_cast<int>(std::floor(hit_cooldown / 10.0f)) % 2;
+            alpha = 0.5f * (static_cast<int>(std::floor(hit_cooldown / 10.0f)) % 2) + 0.5f;
         }
 
-        const int num = static_cast<int>((25.0f + position.y) / 32.0f) - 2;
+        const int num = static_cast<int>((25.0f + position.y) / 32.0f) - 1;
         for (int i = 0; i < num; ++i) {
             glm::mat4 model(1.0f);
             model = glm::translate(model, glm::vec3(position.x, position.y - 48.0f - i * 64.0, 0.0f));
@@ -157,8 +158,8 @@ void Chestnut::draw() {
     }
 
     renderer.draw();
-    fruit.draw(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-    stem.draw(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+    //fruit.draw(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    //stem.draw(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 }
 
 void Chestnut::hit(bool female, const engine::Box &sword, glm::vec2 player_velocity) {

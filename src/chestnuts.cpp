@@ -15,9 +15,9 @@ void Chestnuts::update(float msec) {
         container.emplace_back(new Chestnut(*score,
                                             (screen_width - 50.0f) * static_cast<float>(rand()) / RAND_MAX + 25.0f,
                                             0.1f * static_cast<float>(rand()) / RAND_MAX + 0.05f,
-                                            150.0f * static_cast<float>(rand()) / RAND_MAX + 100.0f,
+                                            200.0f * static_cast<float>(rand()) / RAND_MAX + 150.0f,
                                             screen_width, screen_height));
-        cooldown = 2000.0f * static_cast<float>(rand()) / RAND_MAX + 1000.0f;
+        cooldown = 2000.0f * static_cast<float>(rand()) / RAND_MAX + 3000.0f;
     }
     for (auto &item : container) {
         if (item) {
