@@ -119,9 +119,8 @@ int main(int argc, char *argv[]) {
                         break;
                     }
                     break;
-                case SDL_CONTROLLERBUTTONUP:
                 case SDL_CONTROLLERBUTTONDOWN:
-                    if (player1.is_dead() || player2.is_dead()) {
+                    if (event.cbutton.button == SDL_CONTROLLER_BUTTON_GUIDE && (player1.is_dead() || player2.is_dead())) {
                         quit = true;
                         again = true;
                     }
