@@ -91,4 +91,12 @@ void Destination::draw(const glm::mat4x4 &projection, const glm::vec3 &color) co
     glDrawArrays(GL_TRIANGLES, 0, sizeof(screen_vertex_data) / 4);
 }
 
+GLsizei Destination::get_screen_width() const {
+    return screen_width;
+}
+
+GLsizei Destination::get_screen_height() const {
+    return screen_height;
+}
+
 }

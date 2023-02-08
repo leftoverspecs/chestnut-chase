@@ -85,6 +85,7 @@ int main(int argc, char *argv[]) {
     game::Screen screen(WIDTH, HEIGHT);
 
     bool exit_game = false;
+    bool fullscreen = false;
     while (!exit_game) {
         game::Score score(font, WIDTH, HEIGHT);
         game::Chestnuts chestnuts(score, WIDTH, HEIGHT);
@@ -100,8 +101,6 @@ int main(int argc, char *argv[]) {
         bool again = false;
         bool quit = false;
         long last = SDL_GetTicks64();
-        float exposure = 3.2f;
-        float gamma = 0.6f;
         music.play(-1);
         while (!quit) {
             SDL_Event event;
@@ -116,6 +115,11 @@ int main(int argc, char *argv[]) {
                     case SDLK_ESCAPE:
                         again = false;
                         quit = true;
+                        break;
+                    case SDLK_f:
+                        fullscreen = !fullscreen;
+                        SDL_SetWindowFullscreen(window, fullscreen ? SDL_WINDOW_FULLSCREEN : 0);
+                        screen.switch_fullscreen(SDL_GetWindowDisplayIndex(window), fullscreen);
                         break;
                     }
                     break;

@@ -30,6 +30,9 @@ public:
     void set_gamma(float gamma);
     void set_exposure(float exposure);
 
+    GLsizei get_screen_width() const;
+    GLsizei get_screen_height() const;
+
 private:
     Program shader;
     GLsizei screen_width;
