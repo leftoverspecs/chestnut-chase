@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
                         break;
                     case SDLK_f:
                         fullscreen = !fullscreen;
-                        SDL_SetWindowFullscreen(window, fullscreen ? SDL_WINDOW_FULLSCREEN : 0);
+                        SDL_SetWindowFullscreen(window, fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
                         screen.switch_fullscreen(SDL_GetWindowDisplayIndex(window), fullscreen);
                         break;
                     }
