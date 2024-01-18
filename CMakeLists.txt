@@ -1,10 +1,13 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.26)
 project(ggj2023 CXX)
 
 find_package(Python COMPONENTS Interpreter REQUIRED)
-
-include("${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
-conan_basic_setup(TARGETS)
+find_package(SDL2 REQUIRED CONFIG)
+find_package(SDL2_mixer REQUIRED CONFIG)
+find_package(SDL2_image REQUIRED CONFIG)
+find_package(GLEW REQUIRED)
+find_package(glm REQUIRED CONFIG)
+find_package(OpenGL REQUIRED)
 
 add_subdirectory(assets)
 add_subdirectory(engine)

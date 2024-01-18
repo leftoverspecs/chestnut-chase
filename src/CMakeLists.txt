@@ -18,8 +18,8 @@ add_executable(chestnutchase WIN32
     screen.h
 )
 target_link_libraries(chestnutchase PRIVATE
-    CONAN_PKG::sdl
-    CONAN_PKG::glew
+    SDL2::SDL2
+    GLEW::glew
     assets
     engine
 )

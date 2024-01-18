@@ -43,11 +43,11 @@ add_library(engine STATIC
     wave.cpp
 )
 target_link_libraries(engine PRIVATE
-    CONAN_PKG::sdl
-    CONAN_PKG::sdl_image
-    CONAN_PKG::glew
+    SDL2::SDL2
+    SDL2_image::SDL2_image
+    GLEW::glew
     assets
 )
-target_link_libraries(engine PUBLIC CONAN_PKG::glm CONAN_PKG::sdl_mixer)
+target_link_libraries(engine PUBLIC glm::glm SDL2_mixer::SDL2_mixer OpenGL::OpenGL)
 target_include_directories(engine INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}")
 target_compile_features(engine PUBLIC cxx_std_17)
