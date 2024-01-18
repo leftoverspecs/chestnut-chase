@@ -19,7 +19,9 @@ add_executable(chestnutchase WIN32
 )
 target_link_libraries(chestnutchase PRIVATE
     SDL2::SDL2
+    SDL2::SDL2main
     GLEW::glew
+    OpenGL::GL
     assets
     engine
 )

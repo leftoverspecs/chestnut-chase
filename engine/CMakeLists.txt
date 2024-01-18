@@ -48,6 +48,6 @@ target_link_libraries(engine PRIVATE
     GLEW::glew
     assets
 )
-target_link_libraries(engine PUBLIC glm::glm SDL2_mixer::SDL2_mixer OpenGL::OpenGL)
+target_link_libraries(engine PUBLIC glm::glm SDL2_mixer::SDL2_mixer OpenGL::GL)
 target_include_directories(engine INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}")
 target_compile_features(engine PUBLIC cxx_std_17)
